@@ -24,11 +24,13 @@ namespace LastCard
         private List<Card> CreateCards()
         {
             var result = new List<Card>();
+
             for (var i = 0; i < maxCardsAmount; i++)
             {
                 var newCard = Instantiate(cardsPrefabs[0], this.transform);
                 result.Add(newCard);
             }
+            
             return result;
         }
 
