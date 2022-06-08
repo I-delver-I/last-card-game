@@ -26,7 +26,7 @@ namespace Kursach
 
             for (var i = 0; i < Player.HandSize; i++)
             {
-                
+                DrawCard();
             }
         }
 
