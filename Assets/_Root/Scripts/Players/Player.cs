@@ -1,5 +1,6 @@
 namespace LastCard
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using UnityEngine;
@@ -11,6 +12,8 @@ namespace LastCard
         [SerializeField]
         private Transform cardsHolder;
 
+        public event Action<Card> OnCardSelected;
+        
         public virtual void AddCards(List<Card> additionalCards)
         {
             cards.AddRange(additionalCards);
@@ -21,9 +24,11 @@ namespace LastCard
             }
         }
 
-        public Task MakeTurn()
+        protected void SendCardSelected(Card card)
         {
-            return Task.Delay(2000);
+            OnCardSelected?.Invoke(card);
         }
+
+        public abstract Task MakeTurn();
     }
 }

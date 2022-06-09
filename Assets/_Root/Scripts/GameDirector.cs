@@ -73,10 +73,10 @@ namespace LastCard
             {
                 if (true) // if user can make a turn
                 {
-                    Debug.Log($"Player {playerIndex} started turn");
-                    var turnTask = players[playerIndex].MakeTurn();
+//                  players[playerIndex].OnCardSelected += ProcessPlayerInput
+                    Task turnTask = players[playerIndex].MakeTurn();
                     await turnTask;
-                    Debug.Log($"Player {playerIndex} finished turn");
+//                  players[playerIndex].OnCardSelected -= ProcessPlayerInput
                 }
 
                 playerIndex = GetNextPlayerIndex(playerIndex);
