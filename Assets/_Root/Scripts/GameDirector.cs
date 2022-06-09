@@ -1,6 +1,7 @@
 namespace LastCard
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using UnityEngine;
 
     public class GameDirector : MonoBehaviour
@@ -64,9 +65,32 @@ namespace LastCard
             cardsPile.PushCard(pileCards);
         }
 
-        private void StartGame()
+        private async void StartGame()
         {
+            var playerIndex = GetStartPlayerIndex();
             
+            while (true) // Not game is completed
+            {
+                if (true) // if user can make a turn
+                {
+                    Debug.Log($"Player {playerIndex} started turn");
+                    var turnTask = players[playerIndex].MakeTurn();
+                    await turnTask;
+                    Debug.Log($"Player {playerIndex} finished turn");
+                }
+
+                playerIndex = GetNextPlayerIndex(playerIndex);
+            }
+        }
+
+        private int GetStartPlayerIndex()
+        {
+            return 0;
+        }
+
+        private int GetNextPlayerIndex(int index)
+        {
+            return  (index + 1) % players.Count;
         }
     }
 }

@@ -1,6 +1,7 @@
 namespace LastCard
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using UnityEngine;
 
     public abstract class Player : MonoBehaviour
@@ -18,6 +19,11 @@ namespace LastCard
             {
                 card.transform.SetParent(cardsHolder, false);
             }
+        }
+
+        public Task MakeTurn()
+        {
+            return Task.Delay(2000);
         }
     }
 }
