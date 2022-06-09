@@ -28,15 +28,21 @@ namespace LastCard
 
         private void SpawnPlayers()
         {
-            
             // spawn player
+            UserPlayer user = gameObject.GetComponent<UserPlaceholder>().PlaceUser(GetComponent<UserPlayer>());
+            players.Add(user);
             // spawn required bots amount
+            for (var i = 0; i < botsAmount; i++)
+            {
+                BotPlayer bot = gameObject.GetComponent<BotPlaceholder>().PlaceBot(GetComponent<BotPlayer>(), i + 1);
+                players.Add(bot);
+            }
             // add them to players/initialize
         }
 
         private void DistributeCards()
         {
-            foreach (var player in players)
+            foreach (Player player in players)
             {
                 var cards = cardsDeck.GetCards(initialCardsPerPlayer);
                 player.AddCards(cards);

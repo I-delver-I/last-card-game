@@ -24,10 +24,10 @@ namespace LastCard
         private List<Card> CreateCards()
         {
             var result = new List<Card>();
-
+            
             for (var i = 0; i < maxCardsAmount; i++)
             {
-                var newCard = Instantiate(cardsPrefabs[0], this.transform);
+                var newCard = Instantiate(cardsPrefabs[i], this.transform);
                 result.Add(newCard);
             }
             
@@ -36,12 +36,32 @@ namespace LastCard
 
         public List<Card> GetCards(int amount)
         {
-            throw new NotImplementedException();
+            System.Random random = new System.Random();
+            List<Card> result = new List<Card>();
+
+            while (cards.Count != 0)
+            {
+                Card newCard = cards[random.Next(0, cards.Count)];
+                result.Add(newCard);
+                cards.Remove(newCard);
+            }
+
+            return result;
         }
 
         public Card GetCard()
         {
-            throw new NotImplementedException();
+            System.Random random = new System.Random();
+            
+            if (cards.Count != 0)
+            {
+                Card result = cards[random.Next(0, cards.Count)];
+                cards.Remove(result);
+
+                return result;
+            }
+
+            return null;
         }
     }
 }

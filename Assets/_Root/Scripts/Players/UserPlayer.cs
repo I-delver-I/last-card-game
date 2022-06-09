@@ -7,12 +7,12 @@ namespace LastCard
     {
         public override void AddCards(List<Card> additionalCards)
         {
-            base.AddCards(additionalCards);
-
-            foreach (var card in cards)
+            cards.AddRange(additionalCards);
+            // Place cards?
+            foreach (Card card in cards)
             {
                 Card newCard = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-                newCard.transform.SetParent(GameObject.Find("UserPlayer").transform, false);
+                newCard.transform.SetParent(transform, false);
             }
         }
     }
