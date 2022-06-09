@@ -3,6 +3,7 @@ namespace LastCard
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using System.Linq;
 
     public class CardsDeck : MonoBehaviour
     {
@@ -18,7 +19,9 @@ namespace LastCard
 
         private void Awake()
         {
+            ShuffleCards(cardsPrefabs);
             cards = CreateCards();
+            //cards[cards.Count - 1].GetComponent<CardFlipper>().Flip();
         }
 
         private List<Card> CreateCards()
@@ -34,14 +37,26 @@ namespace LastCard
             return result;
         }
 
-        public List<Card> GetCards(int amount)
+        private void ShuffleCards(List<Card> cardsList)
         {
             System.Random random = new System.Random();
+
+            for (var i = 0; i < cardsList.Count; i++)
+            {
+                int randomIndex = random.Next(0, cardsList.Count - 1);
+                Card card = cardsList[i];
+                cardsList[i] = cardsList[randomIndex];
+                cardsList[randomIndex] = card;
+            }
+        }
+
+        public List<Card> GetCards(int amount)
+        {
             List<Card> result = new List<Card>();
 
-            while (cards.Count != 0)
+            while (cards.Count != 0 && amount != result.Count)
             {
-                Card newCard = cards[random.Next(0, cards.Count)];
+                Card newCard = cards.Last();
                 result.Add(newCard);
                 cards.Remove(newCard);
             }
@@ -51,11 +66,9 @@ namespace LastCard
 
         public Card GetCard()
         {
-            System.Random random = new System.Random();
-            
             if (cards.Count != 0)
             {
-                Card result = cards[random.Next(0, cards.Count)];
+                Card result = cards.Last();
                 cards.Remove(result);
 
                 return result;

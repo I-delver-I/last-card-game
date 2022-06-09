@@ -12,6 +12,7 @@ namespace LastCard
         public void PushCard(Card card)
         {
             cards.Add(card);
+            card.transform.SetParent(transform, false);
         }
     }
 }

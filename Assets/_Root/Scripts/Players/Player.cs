@@ -7,14 +7,16 @@ namespace LastCard
     {
         protected List<Card> cards = new List<Card>();
 
+        [SerializeField]
+        private Transform cardsHolder;
+
         public virtual void AddCards(List<Card> additionalCards)
         {
             cards.AddRange(additionalCards);
             // Place cards?
-            foreach (Card card in cards)
+            foreach (Card card in additionalCards)
             {
-                Card newCard = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-                newCard.transform.SetParent(transform, false);
+                card.transform.SetParent(cardsHolder, false);
             }
         }
     }

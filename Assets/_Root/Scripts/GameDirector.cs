@@ -17,6 +17,18 @@ namespace LastCard
         [SerializeField]
         private int botsAmount = 1;
 
+        [SerializeField]
+        private UserPlaceholder userHolder;
+        
+        [SerializeField]
+        private List<BotPlaceholder> botHolders;
+
+        [SerializeField]
+        private BotPlayer botPrefab;
+
+        [SerializeField]
+        private UserPlayer userPrefab;
+
         private List<Player> players = new List<Player>();
 
         private void Start()
@@ -29,12 +41,12 @@ namespace LastCard
         private void SpawnPlayers()
         {
             // spawn player
-            UserPlayer user = gameObject.GetComponent<UserPlaceholder>().PlaceUser(GetComponent<UserPlayer>());
+            UserPlayer user = userHolder.PlaceUser(userPrefab);
             players.Add(user);
             // spawn required bots amount
             for (var i = 0; i < botsAmount; i++)
             {
-                BotPlayer bot = gameObject.GetComponent<BotPlaceholder>().PlaceBot(GetComponent<BotPlayer>(), i + 1);
+                BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 players.Add(bot);
             }
             // add them to players/initialize
