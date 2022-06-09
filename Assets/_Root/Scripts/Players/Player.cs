@@ -5,12 +5,13 @@ namespace LastCard
 
     public class Player : MonoBehaviour
     {
-        private List<Card> cards = new List<Card>();
+        protected List<Card> cards = new List<Card>();
 
         public virtual void AddCards(List<Card> additionalCards)
         {
             cards.AddRange(additionalCards);
             // Place cards?
+            
         }
     }
 }

@@ -28,6 +28,7 @@ namespace LastCard
 
         private void SpawnPlayers()
         {
+            
             // spawn player
             // spawn required bots amount
             // add them to players/initialize
