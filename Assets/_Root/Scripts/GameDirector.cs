@@ -2,10 +2,14 @@ namespace LastCard
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Logic;
     using UnityEngine;
 
     public class GameDirector : MonoBehaviour
     {
+        [SerializeField]
+        private RulesResolver rulesResolver;
+        
         [SerializeField]
         private CardsDeck cardsDeck;
 
@@ -73,14 +77,25 @@ namespace LastCard
             {
                 if (true) // if user can make a turn
                 {
-//                  players[playerIndex].OnCardSelected += ProcessPlayerInput
+                    players[playerIndex].OnCardSelected += OnPlayerSelectedCard;
                     Task turnTask = players[playerIndex].MakeTurn();
                     await turnTask;
-//                  players[playerIndex].OnCardSelected -= ProcessPlayerInput
+                    players[playerIndex].OnCardSelected -= OnPlayerSelectedCard;
                 }
 
                 playerIndex = GetNextPlayerIndex(playerIndex);
             }
+        }
+
+        private void OnPlayerSelectedCard(Player player, Card card)
+        {
+            if (!rulesResolver.CanPushCard(card))
+            {
+                return;
+            }
+            
+            player.RemoveCard(card);
+            cardsPile.PushCard(card);
         }
 
         private int GetStartPlayerIndex()
