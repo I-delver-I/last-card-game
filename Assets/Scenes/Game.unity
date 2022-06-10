@@ -578,6 +578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1162862080}
   - component: {fileID: 1162862079}
+  - component: {fileID: 1162862081}
   m_Layer: 0
   m_Name: Director
   m_TagString: Untagged
@@ -597,6 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e869d60675b746538fce4c6adb3a1dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rulesResolver: {fileID: 1162862081}
   cardsDeck: {fileID: 1747402874}
   cardsPile: {fileID: 1547243027}
   initialCardsPerPlayer: 7
@@ -624,6 +626,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1162862081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162862078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5ba9d3defa459f9092499b34e85ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardsPile: {fileID: 1547243027}
 --- !u!114 &1311890729 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -5659137051983088533, guid: 39910dd6ae63e479e8e26a39be215810, type: 3}
