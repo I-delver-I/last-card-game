@@ -12,7 +12,7 @@ namespace LastCard
         [SerializeField]
         private Transform cardsHolder;
 
-        public event Action<Card> OnCardSelected;
+        public event Action<Player, Card> OnCardSelected;
         
         public virtual void AddCards(List<Card> additionalCards)
         {
@@ -24,9 +24,14 @@ namespace LastCard
             }
         }
 
+        public virtual void RemoveCard(Card card)
+        {
+            cards.Remove(card);
+        }
+
         protected void SendCardSelected(Card card)
         {
-            OnCardSelected?.Invoke(card);
+            OnCardSelected?.Invoke(this, card);
         }
 
         public abstract Task MakeTurn();

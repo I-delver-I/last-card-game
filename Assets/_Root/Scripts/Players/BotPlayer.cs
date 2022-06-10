@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace LastCard
 {
     using System.Threading.Tasks;
