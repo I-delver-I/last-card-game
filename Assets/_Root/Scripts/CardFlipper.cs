@@ -7,25 +7,26 @@ namespace LastCard
 {
     public class CardFlipper : MonoBehaviour
     {
-        private Sprite CardFront;
+        private Sprite cardFront;
+
         public Sprite CardBack;
 
-        private void Awake() 
+        private void Awake()
         {
-            CardFront = gameObject.GetComponent<Image>().sprite;
+            cardFront = GetComponent<Image>().sprite;
         }
 
         public void Flip()
         {
-            Sprite currentSprite = gameObject.GetComponent<Image>().sprite;
+            Sprite currentSprite = GetComponent<Image>().sprite;
 
-            if (currentSprite == CardFront)
+            if (currentSprite == cardFront)
             {
-                gameObject.GetComponent<Image>().sprite = CardBack;
+                GetComponent<Image>().sprite = CardBack;
             }
             else
             {
-                gameObject.GetComponent<Image>().sprite = CardFront;
+                GetComponent<Image>().sprite = cardFront;
             }
         }
     }

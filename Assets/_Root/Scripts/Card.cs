@@ -6,6 +6,5 @@ namespace LastCard
     {
         public Nominal nominal;
         public Suit suit;
-        public int value;
     }
 }

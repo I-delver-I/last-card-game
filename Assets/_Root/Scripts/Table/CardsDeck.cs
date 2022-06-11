@@ -21,7 +21,6 @@ namespace LastCard
         {
             ShuffleCards(cardsPrefabs);
             cards = CreateCards();
-            //cards[cards.Count - 1].GetComponent<CardFlipper>().Flip();
         }
 
         private List<Card> CreateCards()

@@ -75,8 +75,8 @@ namespace LastCard
                 player.AddCards(cards);
             }
 
-            var pileCards = cardsDeck.GetCard();
-            cardsPile.PushCard(pileCards);
+            var pileCard = cardsDeck.GetCard();
+            cardsPile.PushCard(pileCard);
         }
 
         private async void StartGame()
