@@ -4,6 +4,7 @@ namespace LastCard
     using System.Threading.Tasks;
     using Logic;
     using UnityEngine;
+    using System;
 
     public class GameDirector : MonoBehaviour
     {
@@ -38,9 +39,18 @@ namespace LastCard
 
         private void Start()
         {
+            CheckCardsCount();
             SpawnPlayers();
             DistributeCards();
             StartGame();
+        }
+
+        private void CheckCardsCount()
+        {
+            if (initialCardsPerPlayer < 4 || initialCardsPerPlayer > 8)
+            {
+                throw new ArgumentOutOfRangeException("The cards count musn't be less than 4 or bigger than 8");
+            }
         }
 
         private void SpawnPlayers()
@@ -73,9 +83,9 @@ namespace LastCard
         {
             var playerIndex = GetStartPlayerIndex();
             
-            while (true) // Not game is completed
+            while (players.Count != 1) // Not game is completed
             {
-                if (true) // if user can make a turn
+                if (players[playerIndex].CanMakeTurn) // if user can make a turn
                 {
                     players[playerIndex].OnCardSelected += OnPlayerSelectedCard;
                     Task turnTask = players[playerIndex].MakeTurn();
@@ -100,7 +110,9 @@ namespace LastCard
 
         private int GetStartPlayerIndex()
         {
-            return 0;
+            System.Random random = new System.Random();
+
+            return random.Next(0, players.Count - 1);
         }
 
         private int GetNextPlayerIndex(int index)
