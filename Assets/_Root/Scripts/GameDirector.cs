@@ -105,7 +105,7 @@ namespace LastCard
 
         private int GetNextPlayerIndex(int index)
         {
-            return  (index + 1) % players.Count;
+            return (index + 1) % players.Count;
         }
     }
 }

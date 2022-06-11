@@ -2,6 +2,7 @@ namespace LastCard.Controls
 {
     using System;
     using UnityEngine;
+    using UnityEngine.EventSystems;
 
     public class TapCardsSelector : MonoBehaviour
     {
@@ -9,25 +10,37 @@ namespace LastCard.Controls
         
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetMouseButtonDown(0))
             {
                 var cursorPosition = Input.mousePosition;
                 TrySelectCard(cursorPosition);
             }
         }
 
+
         private void TrySelectCard(Vector2 screenPosition)
         {
-            Debug.Log($"Tap on: {screenPosition} position");
+            //Debug.Log($"Tap on: {screenPosition} position");
             // Select UI object of type Card by mouse tap / by screen position;
             // card = someCard;
-            
-            /*
-            if (isCardSelected)
+            //Camera camera = new Camera();
+            Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(screenPosition).x,
+                Camera.main.ScreenToWorldPoint(screenPosition).y);
+            RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 0f);
+
+            if (hit.transform.gameObject.name.Contains("Card"))
             {
-                OnCardSelected?.Invoke(card);
+                print($"Hit {hit.transform.gameObject.name}");
+
+                // if (isCardSelected)
+                // {
+                //     OnCardSelected?.Invoke(card);
+                // }
             }
-            */
+            else
+            {
+                print("No hit");
+            }
         }
     }
 }
