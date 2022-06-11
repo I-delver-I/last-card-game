@@ -13,6 +13,7 @@ namespace LastCard
         private Transform cardsHolder;
 
         public event Action<Player, Card> OnCardSelected;
+        public bool CanMakeTurn { get; set; } = true;
         
         public virtual void AddCards(List<Card> additionalCards)
         {
@@ -22,6 +23,11 @@ namespace LastCard
             {
                 card.transform.SetParent(cardsHolder, false);
             }
+        }
+
+        public bool ContainsCard(Card card)
+        {
+            return cards.Contains(card);
         }
 
         public virtual void RemoveCard(Card card)
