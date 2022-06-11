@@ -579,6 +579,7 @@ GameObject:
   - component: {fileID: 1162862080}
   - component: {fileID: 1162862079}
   - component: {fileID: 1162862081}
+  - component: {fileID: 1162862082}
   m_Layer: 0
   m_Name: Director
   m_TagString: Untagged
@@ -639,6 +640,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsPile: {fileID: 1547243027}
+--- !u!114 &1162862082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162862078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98dc985dbd674de396d37e083df33af4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1311890729 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -5659137051983088533, guid: 39910dd6ae63e479e8e26a39be215810, type: 3}
