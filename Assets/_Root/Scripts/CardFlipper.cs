@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,24 +7,27 @@ namespace LastCard
     {
         private Sprite cardFront;
 
+        [SerializeField]
+        private Image image;
+        
         public Sprite CardBack;
 
         private void Awake()
         {
-            cardFront = GetComponent<Image>().sprite;
+            cardFront = image.sprite;
         }
 
         public void Flip()
         {
-            Sprite currentSprite = GetComponent<Image>().sprite;
+            Sprite currentSprite = image.sprite;
 
             if (currentSprite == cardFront)
             {
-                GetComponent<Image>().sprite = CardBack;
+                image.sprite = CardBack;
             }
             else
             {
-                GetComponent<Image>().sprite = cardFront;
+                image.sprite = cardFront;
             }
         }
     }

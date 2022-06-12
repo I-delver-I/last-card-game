@@ -30,22 +30,15 @@ namespace LastCard.Controls
             {
                 foreach (var result in raycastResults)
                 {
-                    string name = result.gameObject.name;
-
-                    if (name.Contains("Card") && result.gameObject.transform.
-                        IsChildOf(GameObject.Find("UserPlayer(Clone)").transform))
+                    var card = result.gameObject.GetComponent<Card>();
+                    
+                    if (card != null)
                     {
-                        print(name);
-                        OnCardSelected?.Invoke(result.gameObject.GetComponent<Card>());
+                        OnCardSelected?.Invoke(card);
+                        return;
                     }
-                    //Card card = result.gameObject.GetComponent<Card>;
                 }
             }
-
-            // if (isCardSelected)
-            // {
-            //     OnCardSelected?.Invoke(card);
-            // }
         }
     }
 }

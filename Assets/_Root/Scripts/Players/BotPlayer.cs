@@ -2,6 +2,7 @@ namespace LastCard
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using UnityEngine;
 
     public class BotPlayer : Player
     {
@@ -11,12 +12,13 @@ namespace LastCard
 
             foreach (Card card in cards)
             {
-                card.GetComponent<CardFlipper>().Flip();
+                card.flipper.Flip();
             }
         }
 
         public override Task MakeTurn()
         {
+            Debug.Log("Bot turn");
             return Task.CompletedTask;
         }
     }

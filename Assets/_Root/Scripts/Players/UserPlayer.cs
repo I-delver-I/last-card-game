@@ -2,6 +2,7 @@ namespace LastCard
 {
     using System.Threading.Tasks;
     using Controls;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     public class UserPlayer : Player
@@ -33,6 +34,7 @@ namespace LastCard
 
         public override Task MakeTurn()
         {
+            Debug.Log("User turn");
             turnTcs = new TaskCompletionSource<bool>();
             
             return turnTcs.Task;

@@ -5,6 +5,7 @@ namespace LastCard
     using Logic;
     using UnityEngine;
     using System;
+    using System.Threading;
 
     public class GameDirector : MonoBehaviour
     {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 843826078436425171}
   - component: {fileID: 843826078436425170}
   - component: {fileID: 4444252506059389303}
-  - component: {fileID: -8294597471669907132}
+  - component: {fileID: 8955689237245060223}
   m_Layer: 7
   m_Name: Card_base
   m_TagString: Untagged
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nominal: 0
   suit: 0
-  value: 0
+  flipper: {fileID: 8955689237245060223}
 --- !u!61 &4444252506059389303
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 150, y: 250}
   m_EdgeRadius: 0
---- !u!114 &-8294597471669907132
+--- !u!114 &8955689237245060223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 843826078436425172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff224600f71e7c34183145bdf81dc494, type: 3}
+  m_Script: {fileID: 11500000, guid: 18098d735b8e65d4c9dd8b5e01e7b5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardFront: {fileID: 0}
+  image: {fileID: 843826078436425171}
   CardBack: {fileID: 21300000, guid: b6bd7942845263a4b8379745b852b8dc, type: 3}

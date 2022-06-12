@@ -6,5 +6,6 @@ namespace LastCard
     {
         public Nominal nominal;
         public Suit suit;
+        public CardFlipper flipper;
     }
 }
