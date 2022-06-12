@@ -2,10 +2,19 @@ namespace LastCard
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Logic;
     using UnityEngine;
 
     public class BotPlayer : Player
     {
+
+        private RulesResolver resolver;
+        
+        public void Init(RulesResolver rulesResolver)
+        {
+            resolver = rulesResolver;
+        }
+        
         public override void AddCards(List<Card> additionalCards)
         {
             base.AddCards(additionalCards);
@@ -18,7 +27,7 @@ namespace LastCard
 
         public override Task MakeTurn()
         {
-            Debug.Log("Bot turn");
+            
             return Task.CompletedTask;
         }
     }

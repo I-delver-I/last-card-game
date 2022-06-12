@@ -63,6 +63,7 @@ namespace LastCard
             for (var i = 0; i < botsAmount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
+                bot.Init(rulesResolver);
                 players.Add(bot);
             }
             // add them to players/initialize
