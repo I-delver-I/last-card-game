@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsHolder: {fileID: 367985006361991595}
+  cardsDeck: {fileID: 0}
 --- !u!1 &5172122127730785460
 GameObject:
   m_ObjectHideFlags: 0
