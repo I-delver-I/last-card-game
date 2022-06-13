@@ -49,11 +49,16 @@ namespace LastCard
             }
         }
 
+        public bool ContainsCard(Card card)
+        {
+            return cards.Contains(card);
+        }
+
         public List<Card> GetCards(int amount)
         {
             List<Card> result = new List<Card>();
 
-            while (cards.Count != 0 && amount != result.Count)
+            while ((cards.Count != 0) && (amount <= cards.Count) && (amount != result.Count))
             {
                 Card newCard = cards.Last();
                 result.Add(newCard);

@@ -7,7 +7,15 @@ namespace LastCard
     {
         private List<Card> cards = new List<Card>();
 
-        public Card PeekCard => cards[cards.Count - 1];
+        public Card PeekCard()
+        {
+            if (cards.Count - 1 < 0)
+            {
+                return null;
+            }
+
+            return cards[cards.Count - 1];
+        }
 
         public void PushCard(Card card)
         {

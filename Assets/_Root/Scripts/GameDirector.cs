@@ -6,6 +6,7 @@ namespace LastCard
     using UnityEngine;
     using System;
     using System.Threading;
+    using UnityEngine.UI;
 
     public class GameDirector : MonoBehaviour
     {
@@ -36,6 +37,12 @@ namespace LastCard
         [SerializeField]
         private UserPlayer userPrefab;
 
+        [SerializeField]
+        private Background background;
+
+        [SerializeField]
+        private Text winText;
+
         private List<Player> players = new List<Player>();
 
         private void Start()
@@ -58,12 +65,13 @@ namespace LastCard
         {
             // spawn player
             UserPlayer user = userHolder.PlaceUser(userPrefab);
+            user.Init(rulesResolver, cardsDeck);
             players.Add(user);
             // spawn required bots amount
             for (var i = 0; i < botsAmount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
-                bot.Init(rulesResolver);
+                bot.Init(rulesResolver, cardsDeck);
                 players.Add(bot);
             }
             // add them to players/initialize
@@ -74,6 +82,7 @@ namespace LastCard
             foreach (Player player in players)
             {
                 var cards = cardsDeck.GetCards(initialCardsPerPlayer);
+
                 player.AddCards(cards);
             }
 
@@ -87,17 +96,79 @@ namespace LastCard
             
             while (players.Count != 1) // Not game is completed
             {
-                if (players[playerIndex].CanMakeTurn) // if user can make a turn
+                Player player = players[playerIndex];
+
+                if (player.CanMakeTurn) // if user can make a turn
                 {
-                    players[playerIndex].OnCardSelected += OnPlayerSelectedCard;
-                    Task turnTask = players[playerIndex].MakeTurn();
+                    player.OnCardSelected += OnPlayerSelectedCard;
+                    player.OnCardsMissing += OnPlayerMissingCards;
+
+                    Task turnTask = player.MakeTurn();
                     await turnTask;
-                    players[playerIndex].OnCardSelected -= OnPlayerSelectedCard;
+
+                    player.OnCardSelected -= OnPlayerSelectedCard;
+                    player.OnCardsMissing -= OnPlayerMissingCards;
+
+                    if (player.GetCardsCount() == 0)
+                    {
+                        AnnounceWinner(player);
+                    }
+                    else if (cardsPile == null)
+                    {
+                        AnnounceWinner(players);
+                    }
+                }
+
+                if (!PlayersCanMakeTurn())
+                {
+                    AnnounceWinner(players);
                 }
 
                 playerIndex = GetNextPlayerIndex(playerIndex);
             }
         }
+
+        private bool PlayersCanMakeTurn()
+        {
+            foreach (Player player in players)
+            {
+                if (player.CanMakeTurn)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void AnnounceWinner(List<Player> players)
+        {
+            Player winner = players[0];
+            bool twoMorePlayersHaveEqualPoints = false;
+
+            for (var i = 1; i < players.Count; i++)
+            {
+                if (players[i].GetPointsNumber() < winner.GetPointsNumber())
+                {
+                    winner = players[i];
+                }
+                else if (players[i].GetPointsNumber() < winner.GetPointsNumber())
+                {
+                    twoMorePlayersHaveEqualPoints = true;
+                }
+            }
+
+            if (!twoMorePlayersHaveEqualPoints)
+            {
+                AnnounceWinner(winner);
+            }
+        }
+
+        private void AnnounceWinner(Player winner)
+        {
+            background.ShowWinMessage(winner);
+            players.Remove(winner);
+        } 
 
         private void OnPlayerSelectedCard(Player player, Card card)
         {
@@ -108,6 +179,11 @@ namespace LastCard
             
             player.RemoveCard(card);
             cardsPile.PushCard(card);
+        }
+
+        private void OnPlayerMissingCards(Player player)
+        {
+            player.AddCards(new List<Card>() { cardsDeck.GetCard() });
         }
 
         private int GetStartPlayerIndex()
