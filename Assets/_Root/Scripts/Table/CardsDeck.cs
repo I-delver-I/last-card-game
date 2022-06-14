@@ -30,6 +30,7 @@ namespace LastCard
             for (var i = 0; i < maxCardsAmount; i++)
             {
                 var newCard = Instantiate(cardsPrefabs[i], this.transform);
+                newCard.flipper.Flip();
                 result.Add(newCard);
             }
             

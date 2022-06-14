@@ -7,23 +7,12 @@ namespace LastCard.Logic
         [SerializeField]
         private CardsPile cardsPile;
 
-        private bool pushedThree = false;
-        private bool isIncrementing = false;
-
-        public bool CanPushCard(Card card) => FollowsBaseRule(card) || IsEight(card.nominal) || pushedThree
-            || (isIncrementing && (card.nominal == cardsPile.PeekCard.nominal + 1));
-            
-
-        private bool FollowsBaseRule(Card card)
+        public bool CanPushCard(Card card)
         {
-            return (card.suit == cardsPile.PeekCard.suit) || (card.nominal == cardsPile.PeekCard.nominal);
-        }
-
-        private bool IsThree(Nominal nominal)
-        {
-            if (pushedThree)
+            if (cardsPile.HasAliasThree || (card.nominal == Nominal.Eight) ||
+                (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
             {
-                pushedThree = false;
+                cardsPile.HasAliasThree = false;
 
                 return true;
             }
@@ -31,9 +20,21 @@ namespace LastCard.Logic
             return false;
         }
 
-        private bool IsEight(Nominal nominal)
+        private bool CanPushFour()
         {
-            return nominal == Nominal.Eight;
+            Nominal lastPileNominal = cardsPile.PeekCard().nominal;
+
+            if (lastPileNominal == Nominal.Five || lastPileNominal == Nominal.Six || lastPileNominal == Nominal.Seven)
+            {
+                return true;
+            }
+
+            return false;            
+        }
+
+        private bool FollowsBaseCondition(Card card)
+        {
+            return (card.suit == cardsPile.PeekCard().suit) || (card.nominal == cardsPile.PeekCard().nominal);
         }
     }
 }

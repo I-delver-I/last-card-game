@@ -6,7 +6,9 @@ namespace LastCard
     public class CardsPile : MonoBehaviour
     {
         private List<Card> cards = new List<Card>();
-
+        public bool IsIncrementing { get; set; } = false;
+        public bool HasAliasThree { get; set; } = false;
+        
         public Card PeekCard()
         {
             if (cards.Count - 1 < 0)
@@ -21,6 +23,11 @@ namespace LastCard
         {
             cards.Add(card);
             card.transform.SetParent(transform, false);
+
+            if (card.nominal == Nominal.Four)
+            {
+                IsIncrementing = true;
+            }
         }
     }
 }

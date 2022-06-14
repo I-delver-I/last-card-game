@@ -1,8 +1,9 @@
 namespace LastCard
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Controls;
-    using JetBrains.Annotations;
     using UnityEngine;
 
     public class UserPlayer : Player
@@ -11,6 +12,8 @@ namespace LastCard
         private TapCardsSelector cardsSelector;
 
         private TaskCompletionSource<bool> turnTcs;
+
+        //public event Action<Player> OnTurnSkipping;
         
         private void Awake()
         {
@@ -19,17 +22,48 @@ namespace LastCard
 
         private void OnCardTap(Card selectedCard)
         {
-            if (!cards.Contains(selectedCard))
-            {
-                return;
-            }
-
             if (turnTcs == null || turnTcs.Task.IsCompleted)
             {
                 return;
             }
 
-            SendCardSelected(selectedCard);
+            if (cards.Contains(selectedCard))
+            {
+                SendCardSelected(selectedCard);
+                
+                if (selectedCard.nominal == Nominal.Three)
+                {
+                    pile.HasAliasThree = true;                    
+                }
+                else if (selectedCard.nominal == Nominal.Eight)
+                {
+                    // Announce new suit
+                    EndTurn();
+                }
+                else
+                {
+                    EndTurn();
+                }
+            }
+            else if (deck.ContainsCard(selectedCard))
+            {
+                TakeCards();
+                EndTurn();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        public override void AddCards(List<Card> additionalCards)
+        {
+            foreach (Card card in additionalCards)
+            {
+                card.flipper.Flip();
+            }
+
+            base.AddCards(additionalCards);
         }
 
         public override Task MakeTurn()
@@ -40,7 +74,7 @@ namespace LastCard
             return turnTcs.Task;
         }
 
-        public void EndTurn()
+        public override void EndTurn()
         {
             if (turnTcs == null)
             {

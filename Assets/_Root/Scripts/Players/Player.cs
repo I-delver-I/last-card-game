@@ -11,7 +11,7 @@ namespace LastCard
         protected List<Card> cards = new List<Card>();
         protected CardsDeck deck;
         protected RulesResolver resolver;
-
+        protected CardsPile pile;
 
         [SerializeField]
         private Transform cardsHolder;
@@ -30,10 +30,11 @@ namespace LastCard
             }
         }
 
-        public void Init(RulesResolver rulesResolver, CardsDeck cardsDeck)
+        public void Init(RulesResolver rulesResolver, CardsDeck cardsDeck, CardsPile cardsPile)
         {
             resolver = rulesResolver;
             deck = cardsDeck;
+            pile = cardsPile;
         }
 
         public int GetPointsNumber()
@@ -53,6 +54,16 @@ namespace LastCard
             return cards.Count;
         }
 
+        public bool ContainsCard(Card card)
+        {
+            return cards.Contains(card);
+        }
+
+        public bool ContainsCard(Predicate<Card> predicate)
+        {
+            return cards.Find(predicate);
+        }
+
         public virtual void RemoveCard(Card card)
         {
             cards.Remove(card);
@@ -63,10 +74,12 @@ namespace LastCard
             OnCardSelected?.Invoke(this, card);
         }
 
-        protected void TakeCard()
+        protected void TakeCards()
         {
             OnCardsMissing?.Invoke(this);
         }
+
+        public abstract void EndTurn();
 
         public abstract Task MakeTurn();
     }

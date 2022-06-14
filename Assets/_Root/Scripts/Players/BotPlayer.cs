@@ -7,14 +7,9 @@ namespace LastCard
 
     public class BotPlayer : Player
     {
-        public override void AddCards(List<Card> additionalCards)
+        public override void EndTurn()
         {
-            foreach (Card card in additionalCards)
-            {
-                card.flipper.Flip();
-            }
-
-            base.AddCards(additionalCards);
+            //throw new System.NotImplementedException();
         }
 
         public override Task MakeTurn()
@@ -32,13 +27,8 @@ namespace LastCard
                 }
             }
 
-            Card newCard = deck.GetCard();
+            TakeCards();
             
-            if (newCard != null)
-            {
-                AddCards(new List<Card>() { newCard });
-            }
-
             return Task.CompletedTask;
         }
     }
