@@ -65,13 +65,13 @@ namespace LastCard
         {
             // spawn player
             UserPlayer user = userHolder.PlaceUser(userPrefab);
-            user.Init(rulesResolver, cardsDeck);
+            user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
             // spawn required bots amount
             for (var i = 0; i < botsAmount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
-                bot.Init(rulesResolver, cardsDeck);
+                bot.Init(rulesResolver, cardsDeck, cardsPile);
                 players.Add(bot);
             }
             // add them to players/initialize
@@ -87,6 +87,7 @@ namespace LastCard
             }
 
             var pileCard = cardsDeck.GetCard();
+            pileCard.flipper.Flip();
             cardsPile.PushCard(pileCard);
         }
 
@@ -103,6 +104,7 @@ namespace LastCard
                     player.OnCardSelected += OnPlayerSelectedCard;
                     player.OnCardsMissing += OnPlayerMissingCards;
 
+                    ProcessSkippingTurn(player, playerIndex);
                     Task turnTask = player.MakeTurn();
                     await turnTask;
 
@@ -119,7 +121,7 @@ namespace LastCard
                     }
                 }
 
-                if (!PlayersCanMakeTurn())
+                if (!GameCanContinue())
                 {
                     AnnounceWinner(players);
                 }
@@ -128,7 +130,7 @@ namespace LastCard
             }
         }
 
-        private bool PlayersCanMakeTurn()
+        private bool GameCanContinue()
         {
             foreach (Player player in players)
             {
@@ -168,7 +170,25 @@ namespace LastCard
         {
             background.ShowWinMessage(winner);
             players.Remove(winner);
-        } 
+        }
+
+        private void ProcessSkippingTurn(Player player, int playerIndex)
+        {
+            if (cardsPile.PeekCard().nominal == Nominal.Two)
+            {
+                player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                player.EndTurn();
+            }
+            else if (!player.CanMakeTurn)
+            {
+                player.CanMakeTurn = true;
+                player.EndTurn();
+            }
+            else if (cardsPile.PeekCard().nominal == Nominal.Jack)
+            {
+                players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
+            }
+        }
 
         private void OnPlayerSelectedCard(Player player, Card card)
         {
@@ -176,14 +196,29 @@ namespace LastCard
             {
                 return;
             }
-            
+
             player.RemoveCard(card);
             cardsPile.PushCard(card);
         }
 
         private void OnPlayerMissingCards(Player player)
         {
-            player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+            Card lastPileCard = cardsPile.PeekCard();
+
+            if (cardsPile.IsIncrementing && !player.
+                ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
+            {
+                for (var i = 0; i < (int)lastPileCard.nominal; i++)
+                {
+                    player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                }
+
+                cardsPile.IsIncrementing = false;
+            }
+            else
+            {
+                player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+            }
         }
 
         private int GetStartPlayerIndex()
@@ -197,5 +232,10 @@ namespace LastCard
         {
             return (index + 1) % players.Count;
         }
+
+        private int GetNextPlayerIndexReverse(int index)
+        {
+            return Math.Abs(index - 1) % players.Count;
+        } 
     }
 }
