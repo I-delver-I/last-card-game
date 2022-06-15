@@ -2,10 +2,15 @@ namespace LastCard
 {
     using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class CardsPile : MonoBehaviour
     {
-        public Transform cardsHolder;
+        [SerializeField]
+        private Transform cardsHolder;
+
+        public Button ChangeButton;
+        public Button ApproveButton;
 
         private List<Card> cards = new List<Card>();
         public bool IsIncrementing { get; set; } = false;

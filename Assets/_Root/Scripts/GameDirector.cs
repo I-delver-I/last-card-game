@@ -189,12 +189,13 @@ namespace LastCard
             {
                 return;
             }
-
-            // else if (card.nominal == Nominal.Eight)
-            // {
-            //     // Announce new suit
-            //     player.EndTurn();
-            // }
+            else if (card.nominal == Nominal.Eight)
+            {
+                // Announce new suit
+                cardsPile.ChangeButton.enabled = true;
+                cardsPile.ApproveButton.enabled = true;
+                // player.EndTurn();
+            }
             else if (card.nominal == Nominal.Ace)
             {
                 reversed = !reversed;

@@ -93,6 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f80cae04a2a4d0c9edba18fd3fe666e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardsHolder: {fileID: 273038112886477415}
+  ChangeButton: {fileID: 7654579198637313689}
+  ApproveButton: {fileID: 9107348539054949410}
 --- !u!61 &3306368968492929041
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -321,7 +324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2238813384521478379
 RectTransform:
   m_ObjectHideFlags: 0
@@ -339,7 +342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 377, y: 160}
+  m_AnchoredPosition: {x: 377, y: -50}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3318971079377974475
@@ -423,7 +426,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4573690698661224921}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3306368968492929044}
+        m_TargetAssemblyTypeName: LastCard.CardsPile, Game.Core
+        m_MethodName: ChangeCardSuit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8881444404592944592
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5659392987642334680
 RectTransform:
   m_ObjectHideFlags: 0
@@ -522,7 +537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 377, y: -11}
+  m_AnchoredPosition: {x: 377, y: -200}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &332086051715687508
@@ -606,4 +621,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3776980200472371427}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1251896724889187460, guid: 910de611064387b448746c594b9c225b, type: 3}
+        m_TargetAssemblyTypeName: LastCard.UserPlayer, Game.Core
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
