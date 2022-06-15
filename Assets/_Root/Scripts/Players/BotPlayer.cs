@@ -4,6 +4,7 @@ namespace LastCard
     using System.Threading.Tasks;
     using Logic;
     using UnityEngine;
+    using System;
 
     public class BotPlayer : Player
     {
@@ -15,6 +16,7 @@ namespace LastCard
         public override Task MakeTurn()
         {
             Debug.Log(name);
+            
             
             foreach (Card card in cards)
             {
@@ -31,5 +33,16 @@ namespace LastCard
             
             return Task.CompletedTask;
         }
+
+        // private int GetPriority(Card card)
+        // {
+        //     List<Nominal> priorityList = new List<Nominal>()
+        //     {
+        //         Nominal.Eight, Nominal.Ace, Nominal.Four, Nominal.Two, Nominal.Eight, Nominal.Three
+        //     };
+
+        //     Dictionary<Nominal, int> priorityQueue = new Dictionary<Nominal, int>();
+        //     priorityQueue.
+        // }
     }
 }

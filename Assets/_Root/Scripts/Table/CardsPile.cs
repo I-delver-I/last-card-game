@@ -15,6 +15,7 @@ namespace LastCard
         private List<Card> cards = new List<Card>();
         public bool IsIncrementing { get; set; } = false;
         public bool HasAliasThree { get; set; } = false;
+        public bool SkipTurn { get; set; } = false;
         
         public Card PeekCard()
         {
@@ -30,10 +31,15 @@ namespace LastCard
         {
             cards.Add(card);
             card.transform.SetParent(cardsHolder.transform, false);
+            Debug.Log(card.name);
 
             if (card.nominal == Nominal.Four)
             {
                 IsIncrementing = true;
+            }
+            else if (card.nominal == Nominal.Two)
+            {
+                SkipTurn = true;
             }
             else if (card.nominal == Nominal.Three)
             {

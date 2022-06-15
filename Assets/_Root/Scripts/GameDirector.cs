@@ -99,9 +99,8 @@ namespace LastCard
             while (players.Count != 1) // Not game is completed
             {
                 Player player = players[playerIndex];
-                ProcessSkippingTurn(player, playerIndex);
 
-                if (player.CanMakeTurn) // if user can make a turn
+                if (CheckSkippingTurn(player, playerIndex)) // if user can make a turn
                 {
                     player.OnCardSelected += OnPlayerSelectedCard;
                     player.OnCardsMissing += OnPlayerMissingCards;
@@ -121,10 +120,6 @@ namespace LastCard
                         AnnounceWinner(players);
                     }
                 }
-                else
-                {
-                    player.CanMakeTurn = true;
-                }
 
                 if (!reversed)
                 {
@@ -138,8 +133,6 @@ namespace LastCard
 
             AnnounceWinner(players);
         }
-
-        
 
         private void AnnounceWinner(List<Player> players)
         {
@@ -170,17 +163,29 @@ namespace LastCard
             players.Remove(winner);
         }
 
-        private void ProcessSkippingTurn(Player player, int playerIndex)
+        private bool CheckSkippingTurn(Player player, int playerIndex)
         {
-            if (cardsPile.PeekCard().nominal == Nominal.Two)
+            if (cardsPile.SkipTurn)
             {
+                cardsPile.SkipTurn = false;
                 player.AddCards(new List<Card>() { cardsDeck.GetCard() });
-                player.EndTurn();
+
+                return true;
             }
-            else if (cardsPile.PeekCard().nominal == Nominal.Jack)
+            
+            if (!player.CanMakeTurn)
+            {
+                player.CanMakeTurn = true;
+
+                return true;
+            }
+            
+            if (cardsPile.PeekCard().nominal == Nominal.Jack)
             {
                 players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
             }
+
+            return false;
         }
 
         private void OnPlayerSelectedCard(Player player, Card card)
@@ -189,12 +194,16 @@ namespace LastCard
             {
                 return;
             }
-            else if (card.nominal == Nominal.Eight)
+
+            player.RemoveCard(card);
+            cardsPile.PushCard(card);
+            
+            if (card.nominal == Nominal.Eight)
             {
                 // Announce new suit
-                cardsPile.ChangeButton.enabled = true;
-                cardsPile.ApproveButton.enabled = true;
-                // player.EndTurn();
+                cardsPile.ChangeButton.gameObject.SetActive(true);
+                cardsPile.ApproveButton.gameObject.SetActive(true);
+                player.EndTurn();
             }
             else if (card.nominal == Nominal.Ace)
             {
@@ -205,9 +214,6 @@ namespace LastCard
             {
                 player.EndTurn();
             }
-
-            player.RemoveCard(card);
-            cardsPile.PushCard(card);
         }
 
         private void OnPlayerMissingCards(Player player)
