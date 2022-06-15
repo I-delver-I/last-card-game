@@ -13,8 +13,6 @@ namespace LastCard
 
         private TaskCompletionSource<bool> turnTcs;
 
-        //public event Action<Player> OnTurnSkipping;
-        
         private void Awake()
         {
             cardsSelector.OnCardSelected += OnCardTap;
@@ -31,19 +29,20 @@ namespace LastCard
             {
                 SendCardSelected(selectedCard);
                 
-                if (selectedCard.nominal == Nominal.Three)
-                {
-                    pile.HasAliasThree = true;                    
-                }
-                else if (selectedCard.nominal == Nominal.Eight)
-                {
-                    // Announce new suit
-                    EndTurn();
-                }
-                else
-                {
-                    EndTurn();
-                }
+                // if (selectedCard.nominal == Nominal.Three)
+                // {
+                //     pile.HasAliasThree = true;                    
+                // }
+                // else if (selectedCard.nominal == Nominal.Eight)
+                // {
+                //     // Announce new suit
+                //     EndTurn();
+                // }
+                // else
+                // {
+                //     EndTurn();
+                // }
+                
             }
             else if (deck.ContainsCard(selectedCard))
             {

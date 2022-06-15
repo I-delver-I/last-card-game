@@ -9,11 +9,16 @@ namespace LastCard.Logic
 
         public bool CanPushCard(Card card)
         {
-            if (cardsPile.HasAliasThree || (card.nominal == Nominal.Eight) ||
-                (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
+            if (cardsPile.HasAliasThree)
             {
                 cardsPile.HasAliasThree = false;
 
+                return true;
+            }
+
+            if ((card.nominal == Nominal.Eight) || (card.nominal == Nominal.Four && CanPushFour()) 
+                || FollowsBaseCondition(card))
+            {
                 return true;
             }
 

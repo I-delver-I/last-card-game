@@ -44,6 +44,7 @@ namespace LastCard
         private Text winText;
 
         private List<Player> players = new List<Player>();
+        private bool reversed = false;
 
         private void Start()
         {
@@ -98,13 +99,13 @@ namespace LastCard
             while (players.Count != 1) // Not game is completed
             {
                 Player player = players[playerIndex];
+                ProcessSkippingTurn(player, playerIndex);
 
                 if (player.CanMakeTurn) // if user can make a turn
                 {
                     player.OnCardSelected += OnPlayerSelectedCard;
                     player.OnCardsMissing += OnPlayerMissingCards;
 
-                    ProcessSkippingTurn(player, playerIndex);
                     Task turnTask = player.MakeTurn();
                     await turnTask;
 
@@ -120,28 +121,25 @@ namespace LastCard
                         AnnounceWinner(players);
                     }
                 }
-
-                if (!GameCanContinue())
+                else
                 {
-                    AnnounceWinner(players);
+                    player.CanMakeTurn = true;
                 }
 
-                playerIndex = GetNextPlayerIndex(playerIndex);
-            }
-        }
-
-        private bool GameCanContinue()
-        {
-            foreach (Player player in players)
-            {
-                if (player.CanMakeTurn)
+                if (!reversed)
                 {
-                    return true;
+                    playerIndex = GetNextPlayerIndex(playerIndex);
+                }
+                else
+                {
+                    playerIndex = GetNextPlayerIndexReversed(playerIndex);
                 }
             }
 
-            return false;
+            AnnounceWinner(players);
         }
+
+        
 
         private void AnnounceWinner(List<Player> players)
         {
@@ -154,7 +152,7 @@ namespace LastCard
                 {
                     winner = players[i];
                 }
-                else if (players[i].GetPointsNumber() < winner.GetPointsNumber())
+                else if (players[i].GetPointsNumber() == winner.GetPointsNumber())
                 {
                     twoMorePlayersHaveEqualPoints = true;
                 }
@@ -179,11 +177,6 @@ namespace LastCard
                 player.AddCards(new List<Card>() { cardsDeck.GetCard() });
                 player.EndTurn();
             }
-            else if (!player.CanMakeTurn)
-            {
-                player.CanMakeTurn = true;
-                player.EndTurn();
-            }
             else if (cardsPile.PeekCard().nominal == Nominal.Jack)
             {
                 players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
@@ -195,6 +188,21 @@ namespace LastCard
             if (!rulesResolver.CanPushCard(card))
             {
                 return;
+            }
+
+            // else if (card.nominal == Nominal.Eight)
+            // {
+            //     // Announce new suit
+            //     player.EndTurn();
+            // }
+            else if (card.nominal == Nominal.Ace)
+            {
+                reversed = !reversed;
+                player.EndTurn();
+            }
+            else
+            {
+                player.EndTurn();
             }
 
             player.RemoveCard(card);
@@ -233,9 +241,9 @@ namespace LastCard
             return (index + 1) % players.Count;
         }
 
-        private int GetNextPlayerIndexReverse(int index)
+        private int GetNextPlayerIndexReversed(int index)
         {
-            return Math.Abs(index - 1) % players.Count;
-        } 
+            return (index - 1 + players.Count) % players.Count;
+        }
     }
 }
