@@ -19,11 +19,9 @@ namespace LastCard
         [SerializeField]
         private CardsPile cardsPile;
 
-        [SerializeField]
-        private int initialCardsPerPlayer = 5;
+        public int initialCardsPerPlayer = 5;
 
-        [SerializeField]
-        private int botsAmount = 1;
+        public int botsAmount = 1;
 
         [SerializeField]
         private UserPlaceholder userHolder;
@@ -43,15 +41,28 @@ namespace LastCard
         [SerializeField]
         private Text winText;
 
+        [SerializeField]
+        private MainMenu menu;
+
         private List<Player> players = new List<Player>();
         private bool reversed = false;
+        private bool menuIsShown = true;
 
-        private void Start()
+        public void StartProgram()
         {
             CheckCardsCount();
             SpawnPlayers();
             DistributeCards();
             StartGame();
+        }
+
+        private void Update() 
+        {
+            if (Input.GetKeyDown("escape"))
+            {
+                menuIsShown = !menuIsShown;
+                menu.gameObject.SetActive(menuIsShown);
+            }
         }
 
         private void CheckCardsCount()
