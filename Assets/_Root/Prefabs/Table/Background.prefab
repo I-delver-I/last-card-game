@@ -100,7 +100,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 507540352627765939, guid: b66a3b89d17dbe441aee818f7d89f706, type: 3}
       propertyPath: m_Text
-      value: The Player UserPlayer(Clone) Won!
+      value: The Player BotPlayer(Clone) Won!
       objectReference: {fileID: 0}
     - target: {fileID: 507540352627765939, guid: b66a3b89d17dbe441aee818f7d89f706, type: 3}
       propertyPath: m_Enabled
