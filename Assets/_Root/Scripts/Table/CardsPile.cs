@@ -16,6 +16,8 @@ namespace LastCard
         public bool IsIncrementing { get; set; } = false;
         public bool HasAliasThree { get; set; } = false;
         public bool SkipTurn { get; set; } = false;
+        public bool IsChangingSuit { get; set; } = false;
+        public bool Reversed { get; set; } = false;
         
         public Card PeekCard()
         {

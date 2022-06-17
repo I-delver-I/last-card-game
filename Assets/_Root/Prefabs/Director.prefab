@@ -62,6 +62,7 @@ MonoBehaviour:
   background: {fileID: 2937414410925233328, guid: db9068d0274b1df45b2dc7dca244778f, type: 3}
   winText: {fileID: 507540352627765939, guid: b66a3b89d17dbe441aee818f7d89f706, type: 3}
   menu: {fileID: 0}
+  settings: {fileID: 11400000, guid: 610d43e46fc8fb04b9dcc3b122b3d3e5, type: 2}
 --- !u!114 &6149248338630000911
 MonoBehaviour:
   m_ObjectHideFlags: 0

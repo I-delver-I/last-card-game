@@ -16,7 +16,7 @@ namespace LastCard
         [SerializeField]
         private Transform cardsHolder;
 
-        public event Action<Player, Card> OnCardSelected;
+        public event Func<Player, Card, bool> OnCardSelected;
         public event Action<Player> OnCardsMissing;
         public bool CanMakeTurn { get; set; } = true;
         
@@ -69,9 +69,9 @@ namespace LastCard
             cards.Remove(card);
         }
 
-        protected void SendCardSelected(Card card)
+        protected bool SendCardSelected(Card card)
         {
-            OnCardSelected?.Invoke(this, card);
+            return OnCardSelected.Invoke(this, card);
         }
 
         protected void TakeCards()

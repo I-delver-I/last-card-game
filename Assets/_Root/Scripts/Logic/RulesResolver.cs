@@ -16,8 +16,17 @@ namespace LastCard.Logic
                 return true;
             }
 
-            if ((card.nominal == Nominal.Eight) || (card.nominal == Nominal.Four && CanPushFour()) 
-                || FollowsBaseCondition(card))
+            if (card.nominal == Nominal.Eight)
+            {
+                return true;
+            }
+
+            if (card.nominal == Nominal.Four && CanPushFour())
+            {
+                return true;
+            }
+
+            if (FollowsBaseCondition(card))
             {
                 return true;
             }

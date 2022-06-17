@@ -27,7 +27,7 @@ namespace LastCard
 
             if (cards.Contains(selectedCard))
             {
-                SendCardSelected(selectedCard);
+                //SendCardSelected(selectedCard);
                 
                 // if (selectedCard.nominal == Nominal.Three)
                 // {
@@ -42,7 +42,27 @@ namespace LastCard
                 // {
                 //     EndTurn();
                 // }
-                
+
+                bool isCardPushed = SendCardSelected(selectedCard);
+
+                if (isCardPushed)
+                {
+                    if (selectedCard.nominal == Nominal.Eight)
+                    {
+                        // Announce new suit
+                        pile.ChangeButton.gameObject.SetActive(true);
+                        //pile.ApproveButton.gameObject.SetActive(true);
+                    }
+                    else if (selectedCard.nominal == Nominal.Ace)
+                    {
+                        pile.Reversed = !pile.Reversed;
+                        EndTurn();
+                    }
+                    else if (selectedCard.nominal != Nominal.Three)
+                    {
+                        EndTurn();
+                    }
+                }
             }
             else if (deck.ContainsCard(selectedCard))
             {

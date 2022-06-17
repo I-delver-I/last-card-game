@@ -24,8 +24,8 @@ namespace LastCard
 
         public void StartNewGame()
         {
+           // director.StartProgram();
             gameObject.SetActive(false);
-            director.StartProgram();
         }
 
         public void ExitGame()
