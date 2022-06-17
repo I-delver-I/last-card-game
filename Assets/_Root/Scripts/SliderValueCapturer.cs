@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SliderValueCapturer : MonoBehaviour
+namespace LastCard
 {
-    // Start is called before the first frame update
-    void Start()
+    public class SliderValueCapturer : MonoBehaviour
     {
-        
-    }
+        public Slider slider;
+        public Text text;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void MoveValueIntoText()
+        {
+            text.text = slider.value.ToString();
+        }
     }
 }

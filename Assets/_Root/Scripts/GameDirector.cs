@@ -18,10 +18,6 @@ namespace LastCard
         [SerializeField]
         private CardsPile cardsPile;
 
-        public int initialCardsPerPlayer = 5;
-
-        public int botsAmount = 1;
-
         [SerializeField]
         private UserPlaceholder userHolder;
         
@@ -48,6 +44,7 @@ namespace LastCard
 
         private void Start()
         {
+            
             SpawnPlayers();
             DistributeCards();
             StartGame();
@@ -69,7 +66,7 @@ namespace LastCard
             user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
             // spawn required bots amount
-            for (var i = 0; i < botsAmount; i++)
+            for (var i = 0; i < settings.BotsCount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
@@ -82,7 +79,7 @@ namespace LastCard
         {
             foreach (Player player in players)
             {
-                var cards = cardsDeck.GetCards(initialCardsPerPlayer);
+                var cards = cardsDeck.GetCards(settings.InitialCardsCount);
 
                 player.AddCards(cards);
             }
@@ -114,10 +111,6 @@ namespace LastCard
                     if (player.GetCardsCount() == 0)
                     {
                         EndGame(player);
-                    }
-                    else if (cardsPile == null)
-                    {
-                        EndGame(players);
                     }
                 }
 

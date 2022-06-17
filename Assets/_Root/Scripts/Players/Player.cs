@@ -22,6 +22,14 @@ namespace LastCard
         
         public virtual void AddCards(List<Card> additionalCards)
         {
+            foreach (Card card in additionalCards)
+            {
+                if (card == null)
+                {
+                    return;
+                }
+            }
+
             cards.AddRange(additionalCards);
             // Place cards?
             foreach (Card card in additionalCards)

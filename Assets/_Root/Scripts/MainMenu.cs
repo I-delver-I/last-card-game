@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace LastCard
 {
     public class MainMenu : MonoBehaviour
     {
         [SerializeField]
-        private GameDirector director;
+        private GameSettings settings;
         
         [SerializeField]
         private Button playButton;
@@ -22,10 +23,12 @@ namespace LastCard
         [SerializeField]
         private Slider cardsSlider;
 
-        public void StartNewGame()
+        [SerializeField]
+        private InputField pointsField;
+
+        public void PlayGame()
         {
-           // director.StartProgram();
-            gameObject.SetActive(false);
+            SceneManager.LoadScene("Game");
         }
 
         public void ExitGame()
@@ -35,12 +38,17 @@ namespace LastCard
 
         public void AssignBotsCount()
         {
-            director.botsAmount = (int)botsSlider.value;
+            settings.BotsCount = (int)botsSlider.value;
         }
 
         public void AssignCardsCount()
         {
-            director.initialCardsPerPlayer = (int)cardsSlider.value;
+            settings.InitialCardsCount = (int)cardsSlider.value;
+        }
+
+        public void AssignPointsCount()
+        {
+            settings.MaximalScore = int.Parse(pointsField.text);
         }
     }
 }

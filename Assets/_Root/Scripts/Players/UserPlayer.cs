@@ -51,7 +51,6 @@ namespace LastCard
                     {
                         // Announce new suit
                         pile.ChangeButton.gameObject.SetActive(true);
-                        //pile.ApproveButton.gameObject.SetActive(true);
                     }
                     else if (selectedCard.nominal == Nominal.Ace)
                     {
@@ -95,7 +94,7 @@ namespace LastCard
 
         public override void EndTurn()
         {
-            if (turnTcs == null)
+            if (turnTcs == null && (pile.PeekCard() != null))
             {
                 return;
             }
