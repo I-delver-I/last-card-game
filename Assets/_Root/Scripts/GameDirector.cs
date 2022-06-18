@@ -4,8 +4,10 @@ namespace LastCard
     using System.Threading.Tasks;
     using Logic;
     using UnityEngine;
-    using System;
+    using System.Linq;
     using UnityEngine.UI;
+    using UnityEngine.SceneManagement;
+    using System.Threading;
 
     public class GameDirector : MonoBehaviour
     {
@@ -31,33 +33,27 @@ namespace LastCard
         private UserPlayer userPrefab;
 
         [SerializeField]
-        private Background background;
-
-        [SerializeField]
-        private Text winText;
-
-        [SerializeField]
         private GameSettings settings;
+
+        //private Button endTurnButton;
 
         private List<Player> players = new List<Player>();
         private int playerIndex;
 
         private void Start()
         {
-            
             SpawnPlayers();
             DistributeCards();
             StartGame();
         }
 
-        // private void Update() 
-        // {
-        //     if (Input.GetKey("escape"))
-        //     {
-        //         menuIsShown = !menuIsShown;
-        //         menu.gameObject.SetActive(menuIsShown);
-        //     }
-        // }
+        private void Update() 
+        {
+            if (Input.GetKey("escape"))
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
 
         private void SpawnPlayers()
         {
@@ -65,12 +61,14 @@ namespace LastCard
             UserPlayer user = userHolder.PlaceUser(userPrefab);
             user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
+            //endTurnButton = user.endTurnButton;
             // spawn required bots amount
             for (var i = 0; i < settings.BotsCount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
                 players.Add(bot);
+                bot.name += $" - {i + 1}";
             }
             // add them to players/initialize
         }
@@ -92,11 +90,12 @@ namespace LastCard
         private async void StartGame()
         {
             playerIndex = GetStartPlayerIndex();
+            Player player = players[playerIndex];
             
-            while (players.Count != 1) // Not game is completed
+            while (!GameIsCompleted(player)) // Not game is completed
             {
-                Player player = players[playerIndex];
-
+                player = players[playerIndex];
+                
                 if (!CheckSkippingTurn(player)) // if user can make a turn
                 {
                     player.OnCardSelected += OnPlayerSelectedCard;
@@ -107,11 +106,6 @@ namespace LastCard
 
                     player.OnCardSelected -= OnPlayerSelectedCard;
                     player.OnCardsMissing -= OnPlayerMissingCards;
-
-                    if (player.GetCardsCount() == 0)
-                    {
-                        EndGame(player);
-                    }
                 }
 
                 if (!cardsPile.Reversed)
@@ -124,10 +118,71 @@ namespace LastCard
                 }
             }
 
-            EndGame(players);
+            EndGame(GetWinner());
         }
 
-        private void EndGame(List<Player> players)
+        private void EndGame(Player winner)
+        {
+            Debug.Log("WINNER IS " + winner.name);
+            settings.WinnerName = winner.name;
+            players.Remove(winner);
+            ExcludeLosers();
+
+            foreach (Player player in players)
+            {
+                settings.RunnerUpps.Add(($"{player.name} - {player.GetPointsNumber()}"));
+            }
+
+            SceneManager.LoadScene("GameEnding");
+        }
+
+        private bool GameIsCompleted(Player player)
+        {
+            if (player.GetCardsCount() == 0)
+            {
+                return true;
+            }
+
+            if ((cardsPile.PeekCard() == null) && NobodyCanMakeTurn())
+            {
+                //endTurnButton.enabled = true;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ExcludeLosers()
+        {
+            List<Player> tempPlayers = new List<Player>(players);
+
+            foreach (Player player in tempPlayers)
+            {
+                if (player.GetPointsNumber() > settings.MaximalScore)
+                {
+                    players.Remove(player);
+                }
+            }
+        }
+
+        private bool NobodyCanMakeTurn()
+        {
+            foreach (Player player in players)
+            {
+                foreach (Card card in player.GetCards())
+                {
+                    if (rulesResolver.CanPushCard(card))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private Player GetWinner()
         {
             Player winner = players[0];
             bool twoMorePlayersHaveEqualPoints = false;
@@ -144,32 +199,12 @@ namespace LastCard
                 }
             }
 
-            if (!twoMorePlayersHaveEqualPoints)
+            if (twoMorePlayersHaveEqualPoints)
             {
-                EndGame(winner);
+                return null;
             }
-            else
-            {
-                winText.text = $"Player {winner} Win!";
-                winText.gameObject.SetActive(true);
-            }
-        }
 
-        private void EndGame(Player winner)
-        {
-            background.ShowWinMessage(winner);
-            players.Remove(winner);
-
-            foreach (Player player in players)
-            {
-                if (player != winner)
-                {
-                    if (player.GetPointsNumber() > settings.MaximalScore)
-                    {
-                        players.Remove(player);
-                    }
-                }
-            }
+            return winner;
         }
 
         private bool CheckSkippingTurn(Player player)
@@ -185,6 +220,19 @@ namespace LastCard
             if (!player.CanMakeTurn)
             {
                 player.CanMakeTurn = true;
+
+                return true;
+            }
+
+            if (cardsPile.PeekCard() == null) 
+            {
+                foreach (Card card in player.GetCards())
+                {
+                    if (rulesResolver.CanPushCard(card))
+                    {
+                        return false;
+                    }
+                }
 
                 return true;
             }

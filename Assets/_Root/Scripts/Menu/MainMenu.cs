@@ -26,8 +26,17 @@ namespace LastCard
         [SerializeField]
         private InputField pointsField;
 
+        private void Update() 
+        {
+            if (Input.GetKey("escape") && settings.GameStarted)
+            {
+                SceneManager.LoadScene("Game");
+            }
+        }
+
         public void PlayGame()
         {
+            settings.GameStarted = true;
             SceneManager.LoadScene("Game");
         }
 

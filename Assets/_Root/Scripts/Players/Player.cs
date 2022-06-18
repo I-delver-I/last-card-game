@@ -5,6 +5,7 @@ namespace LastCard
     using System.Threading.Tasks;
     using LastCard.Logic;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public abstract class Player : MonoBehaviour
     {
@@ -20,6 +21,7 @@ namespace LastCard
         public event Action<Player> OnCardsMissing;
         public bool CanMakeTurn { get; set; } = true;
         
+        
         public virtual void AddCards(List<Card> additionalCards)
         {
             foreach (Card card in additionalCards)
@@ -28,6 +30,8 @@ namespace LastCard
                 {
                     return;
                 }
+
+
             }
 
             cards.AddRange(additionalCards);
@@ -49,6 +53,11 @@ namespace LastCard
         {
             int result = 0;
 
+            if (cards.Count == 0)
+            {
+                return result;
+            }
+
             foreach (Card card in cards)
             {
                 result += (int)card.nominal;
@@ -60,6 +69,11 @@ namespace LastCard
         public int GetCardsCount()
         {
             return cards.Count;
+        }
+
+        public List<Card> GetCards()
+        {
+            return new List<Card>(cards);
         }
 
         public bool ContainsCard(Card card)

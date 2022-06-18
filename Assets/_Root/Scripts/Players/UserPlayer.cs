@@ -5,6 +5,8 @@ namespace LastCard
     using System.Threading.Tasks;
     using Controls;
     using UnityEngine;
+    using UnityEngine.UI;
+    using System.Linq;
 
     public class UserPlayer : Player
     {
@@ -12,6 +14,9 @@ namespace LastCard
         private TapCardsSelector cardsSelector;
 
         private TaskCompletionSource<bool> turnTcs;
+
+        public Button endTurnButton;
+        public HorizontalLayoutGroup hlg;
 
         private void Awake()
         {
@@ -27,22 +32,6 @@ namespace LastCard
 
             if (cards.Contains(selectedCard))
             {
-                //SendCardSelected(selectedCard);
-                
-                // if (selectedCard.nominal == Nominal.Three)
-                // {
-                //     pile.HasAliasThree = true;                    
-                // }
-                // else if (selectedCard.nominal == Nominal.Eight)
-                // {
-                //     // Announce new suit
-                //     EndTurn();
-                // }
-                // else
-                // {
-                //     EndTurn();
-                // }
-
                 bool isCardPushed = SendCardSelected(selectedCard);
 
                 if (isCardPushed)
@@ -50,7 +39,9 @@ namespace LastCard
                     if (selectedCard.nominal == Nominal.Eight)
                     {
                         // Announce new suit
-                        pile.ChangeButton.gameObject.SetActive(true);
+                        System.Random random = new System.Random();
+                        selectedCard.suit = (Suit)random.Next(1, 4);
+                        EndTurn();
                     }
                     else if (selectedCard.nominal == Nominal.Ace)
                     {
@@ -76,6 +67,21 @@ namespace LastCard
 
         public override void AddCards(List<Card> additionalCards)
         {
+            foreach (Card card in additionalCards)
+            {
+                if (card == null)
+                {
+                    return;
+                }
+            }
+
+            if (cards.Count != 0)
+            {
+                RectTransform hlgRect = (RectTransform)hlg.transform;
+                RectTransform cardRect = (RectTransform)cards.FirstOrDefault().transform;
+                hlg.spacing = (hlgRect.rect.width - cardRect.rect.width * cards.Count) / (cards.Count - 1);
+            }
+
             foreach (Card card in additionalCards)
             {
                 card.flipper.Flip();

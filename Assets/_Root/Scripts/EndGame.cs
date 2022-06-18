@@ -1,18 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class EndGame : MonoBehaviour
+namespace LastCard
 {
-    // Start is called before the first frame update
-    void Start()
+    public class EndGame : MonoBehaviour
     {
-        
-    }
+        public GameSettings settings;
+        public Text Congratulation;
+        public Text RunnerUpps;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnEnable() 
+        {
+            SceneManager.sceneLoaded += ShowCongratulation;
+            SceneManager.sceneLoaded += ShowRunnerUpps;
+        }
+
+        private void OnDisable() 
+        {
+            SceneManager.sceneLoaded -= ShowCongratulation;
+            SceneManager.sceneLoaded -= ShowRunnerUpps;
+        }
+
+        public void ShowCongratulation(Scene scene, LoadSceneMode mode)
+        {
+            Congratulation.text = $"Player {settings.WinnerName} Win!";
+        }
+
+        public void ShowRunnerUpps(Scene scene, LoadSceneMode mode)
+        {
+            foreach (string runnerUp in settings.RunnerUpps)
+            {
+                RunnerUpps.text += runnerUp + '\n';
+            }
+        }
     }
 }

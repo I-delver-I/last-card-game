@@ -59,7 +59,7 @@ namespace LastCard
         {
             List<Card> result = new List<Card>();
 
-            while ((cards.Count != 0) && (amount <= cards.Count) && (amount != result.Count))
+            while ((cards.Count != 0) && (amount != result.Count))
             {
                 Card newCard = cards.Last();
                 result.Add(newCard);

@@ -1,6 +1,7 @@
 namespace LastCard
 {
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class BotPlaceholder : MonoBehaviour
     {

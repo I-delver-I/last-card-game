@@ -6,12 +6,13 @@ namespace LastCard
     using UnityEngine;
     using System.Linq;
     using System;
+    using System.Threading;
 
     public class BotPlayer : Player
     {
         public override void EndTurn()
         {
-            //throw new System.NotImplementedException();
+            // Thread.Sleep(1500);
         }
 
         public override Task MakeTurn()
@@ -58,22 +59,12 @@ namespace LastCard
             }
 
             TakeCards();
-            
+
             return Task.CompletedTask;
         }
 
         private Card GetMaximalCard(List<Card> botCards)
         {
-            // List<Nominal> priorityList = new List<Nominal>()
-            // {
-            //     Nominal.Eight, Nominal.Ace, Nominal.Four, Nominal.Two, Nominal.Eight, Nominal.Three
-            // };
-
-            // Dictionary<Nominal, int> priorityQueue = new Dictionary<Nominal, int>()
-            // {
-            //     (ace)
-            // };
-
             return botCards.Find(card => card.nominal == botCards.Max(card => card.nominal));
         }
     }

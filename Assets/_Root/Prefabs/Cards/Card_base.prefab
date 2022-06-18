@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 843826078436425170}
   - component: {fileID: 4444252506059389303}
   - component: {fileID: 8955689237245060223}
+  - component: {fileID: 799391452697043009}
   m_Layer: 7
   m_Name: Card_base
   m_TagString: Untagged
@@ -133,3 +134,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 843826078436425171}
   CardBack: {fileID: 21300000, guid: b6bd7942845263a4b8379745b852b8dc, type: 3}
+--- !u!114 &799391452697043009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843826078436425172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0.6445922, b: 0.6792453, a: 0.5}
+  m_EffectDistance: {x: 3, y: 3}
+  m_UseGraphicAlpha: 1

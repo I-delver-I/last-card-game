@@ -7,16 +7,16 @@ namespace LastCard
 {
     public class Background : MonoBehaviour
     {
-        [SerializeField]
-        private Transform textHolder;
+        // [SerializeField]
+        // private Transform textHolder;
 
-        [SerializeField]
-        private Text winText;
+        // [SerializeField]
+        // private Text winText;
 
-        public void ShowWinMessage(Player player)
-        {
-            winText.text = $"The Player {player.name} Won!";
-            winText.gameObject.SetActive(true);
-        }
+        // public void ShowWinMessage(Player player)
+        // {
+        //     winText.text = $"The Player {player.name} Won!";
+        //     winText.gameObject.SetActive(true);
+        // }
     }
 }
