@@ -2,11 +2,9 @@ namespace LastCard
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Logic;
     using UnityEngine;
     using System.Linq;
     using System;
-    using System.Threading;
     using UnityEngine.UI;
 
     public class BotPlayer : Player
@@ -31,6 +29,7 @@ namespace LastCard
             Debug.Log("Bot turn");
             border.enabled = true;
             await Task.Delay(TimeSpan.FromSeconds(1.5));
+            //await turnDuration;
             border.enabled = false;
             List<Card> tempCards = new List<Card>(cards);
 
@@ -68,6 +67,7 @@ namespace LastCard
                     cardsCount.text = cards.Count.ToString();
                     
                     await Task.CompletedTask;
+                    break;
                 }
             }
 

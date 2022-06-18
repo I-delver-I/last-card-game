@@ -15,7 +15,7 @@ namespace LastCard
 
         private List<Card> cards;
 
-        public int CardsLeft => cards.Count;
+        //public int CardsLeft => cards.Count;
 
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace LastCard
             
             for (var i = 0; i < maxCardsAmount; i++)
             {
-                var newCard = Instantiate(cardsPrefabs[i], this.transform);
+                Card newCard = Instantiate(cardsPrefabs[i], this.transform);
                 newCard.flipper.Flip();
                 result.Add(newCard);
             }

@@ -20,8 +20,6 @@ namespace LastCard.Controls
 
         private void TrySelectCard(Vector2 screenPosition)
         {
-            // Select UI object of type Card by mouse tap / by screen position;
-            // card = someCard;
             var pointerEventData = new PointerEventData(EventSystem.current) { position = screenPosition };
             var raycastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);

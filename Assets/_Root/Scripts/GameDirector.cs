@@ -7,7 +7,6 @@ namespace LastCard
     using System.Linq;
     using UnityEngine.UI;
     using UnityEngine.SceneManagement;
-    using System.Threading;
 
     public class GameDirector : MonoBehaviour
     {
@@ -35,14 +34,18 @@ namespace LastCard
         [SerializeField]
         private GameSettings settings;
 
-        //private Button endTurnButton;
-
         private List<Player> players = new List<Player>();
         private int playerIndex;
         private bool gameIsFinished = false;
 
+        private void Awake() 
+        {
+            rulesResolver.Init(cardsPile);
+        }
+
         private void Start()
         {
+            SceneManager.LoadScene("Game"); // TEST
             SpawnPlayers();
             DistributeCards();
             StartGame();
@@ -58,20 +61,16 @@ namespace LastCard
 
         private void SpawnPlayers()
         {
-            // spawn player
             UserPlayer user = userHolder.PlaceUser(userPrefab);
             user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
-            //endTurnButton = user.endTurnButton;
-            // spawn required bots amount
+            
             for (var i = 0; i < settings.BotsCount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
                 players.Add(bot);
-                bot.name += $" - {i + 1}";
             }
-            // add them to players/initialize
         }
 
         private void DistributeCards()
@@ -83,7 +82,7 @@ namespace LastCard
                 player.AddCards(cards);
             }
 
-            var pileCard = cardsDeck.GetCard();
+            Card pileCard = cardsDeck.GetCard();
             pileCard.flipper.Flip();
             cardsPile.PushCard(pileCard);
         }
@@ -93,11 +92,9 @@ namespace LastCard
             playerIndex = GetStartPlayerIndex();
             Player player = players[playerIndex];
             
-            while (!gameIsFinished) // Not game is completed
+            while (!gameIsFinished)
             {
-                player = players[playerIndex];
-                
-                if (!CheckSkippingTurn(player)) // if user can make a turn
+                if (!CheckSkippingTurn(player))
                 {
                     player.OnCardSelected += OnPlayerSelectedCard;
                     player.OnCardsMissing += OnPlayerMissingCards;
@@ -119,6 +116,7 @@ namespace LastCard
                 }
 
                 gameIsFinished = CheckIsCompleted(player);
+                player = players[playerIndex];
             }
 
             EndGame(GetWinner());
@@ -126,14 +124,21 @@ namespace LastCard
 
         private void EndGame(Player winner)
         {
-            Debug.Log("WINNER IS " + winner.name);
-            settings.WinnerName = winner.name;
-            players.Remove(winner);
+            if (winner == null)
+            {
+                settings.WinnerName = "Draw";
+            }
+            else
+            {
+                settings.WinnerName = winner.name;
+                players.Remove(winner);
+            }
+            
             ExcludeLosers();
 
             foreach (Player player in players)
             {
-                settings.RunnerUpps.Add(($"{player.name} - {player.GetPointsNumber()}"));
+                settings.RunnerUpps.Add(($"{player.name}: {player.GetPointsNumber()} penalty points"));
             }
 
             SceneManager.LoadScene("GameEnding");
@@ -145,8 +150,7 @@ namespace LastCard
             {
                 return true;
             }
-
-            if ((cardsPile.PeekCard() == null) && NobodyCanMakeTurn())
+            else if ((cardsDeck.GetCard() == null) && NobodyCanMakeTurn())
             {
                 return true;
             }
@@ -185,8 +189,7 @@ namespace LastCard
 
         private Player GetWinner()
         {
-            Player winner = players[0];
-            bool twoMorePlayersHaveEqualPoints = false;
+            Player winner = players.FirstOrDefault();
 
             for (var i = 1; i < players.Count; i++)
             {
@@ -196,13 +199,8 @@ namespace LastCard
                 }
                 else if (players[i].GetPointsNumber() == winner.GetPointsNumber())
                 {
-                    twoMorePlayersHaveEqualPoints = true;
+                    return null;
                 }
-            }
-
-            if (twoMorePlayersHaveEqualPoints)
-            {
-                return null;
             }
 
             return winner;
@@ -213,19 +211,24 @@ namespace LastCard
             if (cardsPile.SkipTurn)
             {
                 cardsPile.SkipTurn = false;
-                player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                Card cardFromDeck = cardsDeck.GetCard();
+
+                if (cardFromDeck == null)
+                {
+                    return true;
+                }
+
+                player.AddCards(new List<Card>() { cardFromDeck });
 
                 return true;
-            }
-            
-            if (!player.CanMakeTurn)
+            }            
+            else if (!player.CanMakeTurn)
             {
                 player.CanMakeTurn = true;
 
                 return true;
             }
-
-            if (cardsPile.PeekCard() == null) 
+            else if (cardsDeck.GetCard() == null)
             {
                 foreach (Card card in player.GetCards())
                 {
@@ -247,6 +250,10 @@ namespace LastCard
             {
                 return false;
             }
+            else if (card.nominal == Nominal.Jack)
+            {
+                players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
+            }
 
             cardsPile.PushCard(card);
 
@@ -255,22 +262,6 @@ namespace LastCard
                 Card cardToPush = bot.GetCardToPush();
                 cardsPile.PushCard(cardToPush);
                 bot.RemoveCard(cardToPush);
-            }
-            
-            if (cardsPile.PeekCard().nominal == Nominal.Jack)
-            {
-                players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
-            }
-            else if (card.nominal == Nominal.Eight)
-            {
-                // Announce new suit
-                System.Random random = new System.Random();
-                card.suit = (Suit)random.Next(1, 4);
-            }
-            else if (card.nominal == Nominal.Ace)
-            {
-                cardsPile.Reversed = !cardsPile.Reversed;
-                Debug.Log(cardsPile.Reversed);
             }
 
             return true;
@@ -285,14 +276,24 @@ namespace LastCard
             {
                 for (var i = 0; i < (int)lastPileCard.nominal; i++)
                 {
-                    player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                    Card cardFromDeck = cardsDeck.GetCard();
+
+                    if (cardFromDeck != null)
+                    {
+                        player.AddCards(new List<Card>() { cardFromDeck });
+                    }
                 }
 
                 cardsPile.IsIncrementing = false;
             }
             else
             {
-                player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                Card cardFromDeck = cardsDeck.GetCard();
+                
+                if (cardFromDeck != null)
+                {
+                    player.AddCards(new List<Card>() { cardFromDeck });
+                }
             }
         }
 

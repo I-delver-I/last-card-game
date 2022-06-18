@@ -1398,7 +1398,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6149248338630000911, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+    - target: {fileID: 0}
       propertyPath: cardsPile
       value: 
       objectReference: {fileID: 1620294918}
@@ -1430,6 +1430,10 @@ PrefabInstance:
       propertyPath: endTurnButton
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+      propertyPath: rulesResolver
+      value: 
+      objectReference: {fileID: -2001045372632002798, guid: 33d72b823cb37c249a9976b7b5713a27, type: 3}
     - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: botHolders.Array.data[0]
       value: 

@@ -13,8 +13,6 @@ namespace LastCard
 
         public BotPlayer PlaceBot(BotPlayer prefab)
         {
-            // Instantiate
-            // Place
             BotPlayer bot = Instantiate(prefab, transform);
             bot.border = border;
             bot.cardsCount = cardsNumber;

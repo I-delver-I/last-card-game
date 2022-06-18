@@ -8,8 +8,6 @@ namespace LastCard
     {
         public UserPlayer PlaceUser(UserPlayer prefab)
         {
-            // Instantiate
-            // Place
             UserPlayer user = Instantiate(prefab, transform);
 
             return user;

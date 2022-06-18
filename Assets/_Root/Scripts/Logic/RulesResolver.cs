@@ -4,8 +4,12 @@ namespace LastCard.Logic
 
     public class RulesResolver : MonoBehaviour
     {
-        [SerializeField]
         private CardsPile cardsPile;
+
+        public void Init(CardsPile pile)
+        {
+            cardsPile = pile;
+        }
 
         public bool CanPushCard(Card card)
         {
@@ -14,24 +18,8 @@ namespace LastCard.Logic
                 return false;
             }
 
-            if (cardsPile.HasAliasThree)
-            {
-                cardsPile.HasAliasThree = false;
-
-                return true;
-            }
-
-            if (card.nominal == Nominal.Eight)
-            {
-                return true;
-            }
-
-            if (card.nominal == Nominal.Four && CanPushFour())
-            {
-                return true;
-            }
-
-            if (FollowsBaseCondition(card))
+            if (cardsPile.HasAliasThree || (card.nominal == Nominal.Eight) 
+                || (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
             {
                 return true;
             }
@@ -48,7 +36,7 @@ namespace LastCard.Logic
                 return true;
             }
 
-            return false;            
+            return false;           
         }
 
         private bool FollowsBaseCondition(Card card)

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6149248338630000910}
   - component: {fileID: 6149248338630001393}
-  - component: {fileID: 6149248338630000911}
   - component: {fileID: 6149248338630000908}
   m_Layer: 0
   m_Name: Director
@@ -45,11 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e869d60675b746538fce4c6adb3a1dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rulesResolver: {fileID: 6149248338630000911}
+  rulesResolver: {fileID: 0}
   cardsDeck: {fileID: 0}
   cardsPile: {fileID: 0}
-  initialCardsPerPlayer: 7
-  botsAmount: 1
   userHolder: {fileID: 0}
   botHolders:
   - {fileID: 0}
@@ -59,23 +56,7 @@ MonoBehaviour:
   - {fileID: 0}
   botPrefab: {fileID: 7443765424404295148, guid: bb911c5f6391bd044843dc59b5d674c0, type: 3}
   userPrefab: {fileID: 1251896724889187460, guid: 910de611064387b448746c594b9c225b, type: 3}
-  background: {fileID: 2937414410925233328, guid: db9068d0274b1df45b2dc7dca244778f, type: 3}
-  winText: {fileID: 507540352627765939, guid: b66a3b89d17dbe441aee818f7d89f706, type: 3}
-  menu: {fileID: 0}
   settings: {fileID: 11400000, guid: 610d43e46fc8fb04b9dcc3b122b3d3e5, type: 2}
---- !u!114 &6149248338630000911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6149248338630001392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a5ba9d3defa459f9092499b34e85ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardsPile: {fileID: 0}
 --- !u!114 &6149248338630000908
 MonoBehaviour:
   m_ObjectHideFlags: 0

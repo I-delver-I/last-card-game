@@ -1,12 +1,10 @@
 namespace LastCard
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Controls;
     using UnityEngine;
     using UnityEngine.UI;
-    using System.Linq;
 
     public class UserPlayer : Player
     {
@@ -34,15 +32,16 @@ namespace LastCard
             {
                 if (SendCardSelected(selectedCard))
                 {
-                    if (selectedCard.nominal == Nominal.Eight)
-                    {
-                        EndTurn();
-                    }
-                    else if (selectedCard.nominal == Nominal.Ace)
-                    {
-                        EndTurn();
-                    }
-                    else if (selectedCard.nominal != Nominal.Three)
+                    // if (selectedCard.nominal == Nominal.Eight)
+                    // {
+                    //     EndTurn();
+                    // }
+                    // else if (selectedCard.nominal == Nominal.Ace)
+                    // {
+                    //     EndTurn();
+                    // }
+                    
+                    if (selectedCard.nominal != Nominal.Three)
                     {
                         EndTurn();
                     }
@@ -61,17 +60,17 @@ namespace LastCard
 
         public override void AddCards(List<Card> additionalCards)
         {
-            foreach (Card card in additionalCards)
-            {
-                if (card == null)
-                {
-                    return;
-                }
-            }
+            // foreach (Card card in additionalCards)
+            // {
+            //     if (card == null)
+            //     {
+            //         return;
+            //     }
+            // }
 
             if (cards.Count != 0)
             {
-                int hlgWidth = 1400;
+                int hlgWidth = 1300;
                 int cardWidth = 150;
                 hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
             }

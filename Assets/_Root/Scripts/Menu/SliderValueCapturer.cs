@@ -10,7 +10,7 @@ namespace LastCard
         public Slider slider;
         public Text text;
 
-        public void MoveValueIntoText()
+        public void ConvertValueToString()
         {
             text.text = slider.value.ToString();
         }
