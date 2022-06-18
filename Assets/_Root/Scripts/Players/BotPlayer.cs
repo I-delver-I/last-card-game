@@ -7,17 +7,31 @@ namespace LastCard
     using System.Linq;
     using System;
     using System.Threading;
+    using UnityEngine.UI;
 
     public class BotPlayer : Player
     {
+        public Outline border;
+        public Text cardsCount;
+
         public override void EndTurn()
         {
             // Thread.Sleep(1500);
         }
 
-        public override Task MakeTurn()
+        public override void AddCards(List<Card> additionalCards)
         {
-            Debug.Log(name);
+            base.AddCards(additionalCards);
+
+            cardsCount.text = cards.Count.ToString();
+        }
+
+        public override async Task MakeTurn()
+        {
+            Debug.Log("Bot turn");
+            border.enabled = true;
+            await Task.Delay(TimeSpan.FromSeconds(1.5));
+            border.enabled = false;
             List<Card> tempCards = new List<Card>(cards);
 
             while (tempCards.Count != 0)
@@ -28,39 +42,54 @@ namespace LastCard
                 if (SendCardSelected(maxCard))
                 {
                     maxCard.flipper.Flip();
+                    RemoveCard(maxCard);
 
-                    if (maxCard.nominal == Nominal.Eight)
-                    {
-                        System.Random random = new System.Random();
-                        maxCard.suit = (Suit)random.Next(1, 4);
-                    }
-                    else if (maxCard.nominal == Nominal.Ace)
-                    {
-                        pile.Reversed = !pile.Reversed;
-                    }
-                    else if (maxCard.nominal == Nominal.Three)
-                    {
-                        foreach (Card card in cards)
-                        {
-                            if (SendCardSelected(card))
-                            {
-                                card.flipper.Flip();
+                    // if (maxCard.nominal == Nominal.Three)
+                    // {
+                    //     cardToPush = GetCardToPush();
+                    //     SendCardSelected(cardToPush);
+                    //     RemoveCard(cardToPush);
 
-                                return MakeTurn();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return Task.CompletedTask;
-                    }
+                    //     // foreach (Card card in cards)
+                    //     // {
+                    //     //     if (SendCardSelected(card))
+                    //     //     {
+                    //     //         card.flipper.Flip();
+
+                    //     //         await MakeTurn();
+                    //     //     }
+                    //     // }
+                    // }
+                    // else
+                    // {
+                    //     RemoveCard(cardToPush);
+                    // }
+
+                    cardsCount.text = cards.Count.ToString();
                     
+                    await Task.CompletedTask;
                 }
             }
 
             TakeCards();
+            cardsCount.text = cards.Count.ToString();
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
+        }
+
+        public Card GetCardToPush()
+        {
+            foreach (Card card in cards)
+            {
+                if (resolver.CanPushCard(card))
+                {
+                    card.flipper.Flip();
+                    
+                    return card;
+                }
+            }
+
+            return null;
         }
 
         private Card GetMaximalCard(List<Card> botCards)

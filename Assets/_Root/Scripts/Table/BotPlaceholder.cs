@@ -5,11 +5,19 @@ namespace LastCard
 
     public class BotPlaceholder : MonoBehaviour
     {
+        [SerializeField]
+        private Outline border;
+
+        [SerializeField]
+        private Text cardsNumber;
+
         public BotPlayer PlaceBot(BotPlayer prefab)
         {
             // Instantiate
             // Place
             BotPlayer bot = Instantiate(prefab, transform);
+            bot.border = border;
+            bot.cardsCount = cardsNumber;
             
             return bot;
         }

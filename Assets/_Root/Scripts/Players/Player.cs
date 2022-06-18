@@ -30,8 +30,6 @@ namespace LastCard
                 {
                     return;
                 }
-
-
             }
 
             cards.AddRange(additionalCards);
@@ -80,6 +78,8 @@ namespace LastCard
         {
             return cards.Contains(card);
         }
+
+        
 
         public bool ContainsCard(Predicate<Card> predicate)
         {

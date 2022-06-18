@@ -32,20 +32,14 @@ namespace LastCard
 
             if (cards.Contains(selectedCard))
             {
-                bool isCardPushed = SendCardSelected(selectedCard);
-
-                if (isCardPushed)
+                if (SendCardSelected(selectedCard))
                 {
                     if (selectedCard.nominal == Nominal.Eight)
                     {
-                        // Announce new suit
-                        System.Random random = new System.Random();
-                        selectedCard.suit = (Suit)random.Next(1, 4);
                         EndTurn();
                     }
                     else if (selectedCard.nominal == Nominal.Ace)
                     {
-                        pile.Reversed = !pile.Reversed;
                         EndTurn();
                     }
                     else if (selectedCard.nominal != Nominal.Three)
@@ -77,9 +71,9 @@ namespace LastCard
 
             if (cards.Count != 0)
             {
-                RectTransform hlgRect = (RectTransform)hlg.transform;
-                RectTransform cardRect = (RectTransform)cards.FirstOrDefault().transform;
-                hlg.spacing = (hlgRect.rect.width - cardRect.rect.width * cards.Count) / (cards.Count - 1);
+                int hlgWidth = 1400;
+                int cardWidth = 150;
+                hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
             }
 
             foreach (Card card in additionalCards)

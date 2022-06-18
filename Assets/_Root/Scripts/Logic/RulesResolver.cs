@@ -9,6 +9,11 @@ namespace LastCard.Logic
 
         public bool CanPushCard(Card card)
         {
+            if (card == null)
+            {
+                return false;
+            }
+
             if (cardsPile.HasAliasThree)
             {
                 cardsPile.HasAliasThree = false;

@@ -36,8 +36,15 @@ namespace LastCard
 
         public void PlayGame()
         {
-            settings.GameStarted = true;
-            SceneManager.LoadScene("Game");
+            if (settings.MaximalScore >= 3)
+            {
+                settings.GameStarted = true;
+                SceneManager.LoadScene("Game");
+            }
+            else
+            {
+                pointsField.text = "3";
+            }
         }
 
         public void ExitGame()

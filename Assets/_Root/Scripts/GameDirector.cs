@@ -39,6 +39,7 @@ namespace LastCard
 
         private List<Player> players = new List<Player>();
         private int playerIndex;
+        private bool gameIsFinished = false;
 
         private void Start()
         {
@@ -92,7 +93,7 @@ namespace LastCard
             playerIndex = GetStartPlayerIndex();
             Player player = players[playerIndex];
             
-            while (!GameIsCompleted(player)) // Not game is completed
+            while (!gameIsFinished) // Not game is completed
             {
                 player = players[playerIndex];
                 
@@ -116,6 +117,8 @@ namespace LastCard
                 {
                     playerIndex = GetNextPlayerIndexReversed(playerIndex);
                 }
+
+                gameIsFinished = CheckIsCompleted(player);
             }
 
             EndGame(GetWinner());
@@ -136,7 +139,7 @@ namespace LastCard
             SceneManager.LoadScene("GameEnding");
         }
 
-        private bool GameIsCompleted(Player player)
+        private bool CheckIsCompleted(Player player)
         {
             if (player.GetCardsCount() == 0)
             {
@@ -145,8 +148,6 @@ namespace LastCard
 
             if ((cardsPile.PeekCard() == null) && NobodyCanMakeTurn())
             {
-                //endTurnButton.enabled = true;
-
                 return true;
             }
 
@@ -247,12 +248,29 @@ namespace LastCard
                 return false;
             }
 
-            player.RemoveCard(card);
             cardsPile.PushCard(card);
+
+            if (player is BotPlayer bot && card.nominal == Nominal.Three)
+            {
+                Card cardToPush = bot.GetCardToPush();
+                cardsPile.PushCard(cardToPush);
+                bot.RemoveCard(cardToPush);
+            }
             
             if (cardsPile.PeekCard().nominal == Nominal.Jack)
             {
                 players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
+            }
+            else if (card.nominal == Nominal.Eight)
+            {
+                // Announce new suit
+                System.Random random = new System.Random();
+                card.suit = (Suit)random.Next(1, 4);
+            }
+            else if (card.nominal == Nominal.Ace)
+            {
+                cardsPile.Reversed = !cardsPile.Reversed;
+                Debug.Log(cardsPile.Reversed);
             }
 
             return true;
