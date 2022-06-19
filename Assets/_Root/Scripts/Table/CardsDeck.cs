@@ -15,7 +15,7 @@ namespace LastCard
 
         private List<Card> cards;
 
-        //public int CardsLeft => cards.Count;
+        public int CardsLeft => cards.Count;
 
         private void Awake()
         {

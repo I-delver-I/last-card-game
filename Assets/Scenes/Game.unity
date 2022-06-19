@@ -1398,10 +1398,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: cardsPile
-      value: 
-      objectReference: {fileID: 1620294918}
     - target: {fileID: 6149248338630001392, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: m_Name
       value: Director
@@ -1433,7 +1429,7 @@ PrefabInstance:
     - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: rulesResolver
       value: 
-      objectReference: {fileID: -2001045372632002798, guid: 33d72b823cb37c249a9976b7b5713a27, type: 3}
+      objectReference: {fileID: 6149248339758817039}
     - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: botHolders.Array.data[0]
       value: 
@@ -1456,6 +1452,17 @@ PrefabInstance:
       objectReference: {fileID: 1311890729}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+--- !u!114 &6149248339758817039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7248791105990403546, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+  m_PrefabInstance: {fileID: 6149248339758817038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5ba9d3defa459f9092499b34e85ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9092266418080697959
 PrefabInstance:
   m_ObjectHideFlags: 0

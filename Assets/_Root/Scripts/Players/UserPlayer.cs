@@ -5,6 +5,7 @@ namespace LastCard
     using Controls;
     using UnityEngine;
     using UnityEngine.UI;
+    using System.Linq;
 
     public class UserPlayer : Player
     {
@@ -30,7 +31,10 @@ namespace LastCard
 
             if (cards.Contains(selectedCard))
             {
-                if (SendCardSelected(selectedCard))
+                bool canSendCard = SendCardSelected(selectedCard);
+                Debug.Log($"Can send card: {canSendCard}");
+
+                if (canSendCard)
                 {
                     // if (selectedCard.nominal == Nominal.Eight)
                     // {
@@ -71,7 +75,10 @@ namespace LastCard
             if (cards.Count != 0)
             {
                 int hlgWidth = 1300;
+                hlgWidth = (int)hlg.transform.localScale.x;
                 int cardWidth = 150;
+                cardWidth = (int)additionalCards.FirstOrDefault().transform.localScale.x;
+
                 hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
             }
 
@@ -98,7 +105,17 @@ namespace LastCard
                 return;
             }
 
+            TakeCards();
+
             turnTcs.TrySetResult(true);
+        }
+
+        public void ForceEndTurn()
+        {
+            if (deck.CardsLeft == 0)
+            {
+                EndTurn();
+            }
         }
 
         private void OnDestroy()

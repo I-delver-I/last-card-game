@@ -27,9 +27,10 @@ namespace LastCard
         public override async Task MakeTurn()
         {
             Debug.Log("Bot turn");
+            bool turnIsMade = false;
             border.enabled = true;
-            await Task.Delay(TimeSpan.FromSeconds(1.5));
-            //await turnDuration;
+            Task turnDuration = Task.Delay(TimeSpan.FromSeconds(2));
+            await turnDuration;
             border.enabled = false;
             List<Card> tempCards = new List<Card>(cards);
 
@@ -65,14 +66,18 @@ namespace LastCard
                     // }
 
                     cardsCount.text = cards.Count.ToString();
-                    
+                    turnIsMade = true;
                     await Task.CompletedTask;
                     break;
                 }
             }
 
-            TakeCards();
-            cardsCount.text = cards.Count.ToString();
+            if (!turnIsMade)
+            {
+                Debug.Log("Bot takes card");
+                TakeCards();
+                cardsCount.text = cards.Count.ToString();
+            }
 
             await Task.CompletedTask;
         }

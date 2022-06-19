@@ -18,7 +18,19 @@ namespace LastCard.Logic
                 return false;
             }
 
-            if (cardsPile.HasAliasThree || (card.nominal == Nominal.Eight) 
+            // if (cardsPile.IsIncrementing)
+            // {
+            //     if ((cardsPile.PeekCard().nominal != Nominal.Ten) && (card.nominal == cardsPile.PeekCard().nominal + 1))
+            //     {
+            //         return true;
+            //     }
+            //     else
+            //     {
+            //         return false;
+            //     }
+            // }
+
+            if ((card.nominal == Nominal.Eight) || cardsPile.HasAliasThree
                 || (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
             {
                 return true;

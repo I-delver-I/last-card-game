@@ -5,7 +5,6 @@ namespace LastCard
     using Logic;
     using UnityEngine;
     using System.Linq;
-    using UnityEngine.UI;
     using UnityEngine.SceneManagement;
 
     public class GameDirector : MonoBehaviour
@@ -45,7 +44,7 @@ namespace LastCard
 
         private void Start()
         {
-            SceneManager.LoadScene("Game"); // TEST
+            //SceneManager.LoadScene("Game"); // TEST
             SpawnPlayers();
             DistributeCards();
             StartGame();
@@ -94,6 +93,8 @@ namespace LastCard
             
             while (!gameIsFinished)
             {
+                player = players[playerIndex];
+
                 if (!CheckSkippingTurn(player))
                 {
                     player.OnCardSelected += OnPlayerSelectedCard;
@@ -116,7 +117,6 @@ namespace LastCard
                 }
 
                 gameIsFinished = CheckIsCompleted(player);
-                player = players[playerIndex];
             }
 
             EndGame(GetWinner());
@@ -248,9 +248,11 @@ namespace LastCard
         {
             if (!rulesResolver.CanPushCard(card))
             {
+                Debug.Log($"Can push: {card.name}");
                 return false;
             }
-            else if (card.nominal == Nominal.Jack)
+            
+            if (card.nominal == Nominal.Jack)
             {
                 players[GetNextPlayerIndex(playerIndex)].CanMakeTurn = false;
             }
@@ -260,6 +262,7 @@ namespace LastCard
             if (player is BotPlayer bot && card.nominal == Nominal.Three)
             {
                 Card cardToPush = bot.GetCardToPush();
+                cardToPush.flipper.Flip();
                 cardsPile.PushCard(cardToPush);
                 bot.RemoveCard(cardToPush);
             }
@@ -269,32 +272,40 @@ namespace LastCard
 
         private void OnPlayerMissingCards(Player player)
         {
+            if (cardsDeck.CardsLeft == 0)
+            {
+                return;
+            }
+
             Card lastPileCard = cardsPile.PeekCard();
 
-            if (cardsPile.IsIncrementing && !player.
-                ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
-            {
-                for (var i = 0; i < (int)lastPileCard.nominal; i++)
-                {
-                    Card cardFromDeck = cardsDeck.GetCard();
+            // if (cardsPile.IsIncrementing && !player.
+            //     ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
+            // {
+            //     // for (var i = 0; i < (int)lastPileCard.nominal; i++)
+            //     // {
+            //     //     // Card cardFromDeck = cardsDeck.GetCard();
 
-                    if (cardFromDeck != null)
-                    {
-                        player.AddCards(new List<Card>() { cardFromDeck });
-                    }
-                }
+            //     //     // if (cardFromDeck != null)
+            //     //     // {
+            //     //     //     player.AddCards(new List<Card>() { cardFromDeck });
+            //     //     // }
 
-                cardsPile.IsIncrementing = false;
-            }
-            else
-            {
-                Card cardFromDeck = cardsDeck.GetCard();
+            //     // }
+
+            //     player.AddCards(cardsDeck.GetCards((int)lastPileCard.nominal));
+
+            //     cardsPile.IsIncrementing = false;
+            // }
+            
+            //{
+                //Card cardFromDeck = cardsDeck.GetCard();
                 
-                if (cardFromDeck != null)
-                {
-                    player.AddCards(new List<Card>() { cardFromDeck });
-                }
-            }
+                //if (cardFromDeck != null)
+                //{
+                    player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                //}
+            //}
         }
 
         private int GetStartPlayerIndex()

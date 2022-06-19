@@ -29,7 +29,7 @@ namespace LastCard.Controls
                 foreach (var result in raycastResults)
                 {
                     var card = result.gameObject.GetComponent<Card>();
-                    
+
                     if (card != null)
                     {
                         OnCardSelected?.Invoke(card);

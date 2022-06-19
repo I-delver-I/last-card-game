@@ -10,7 +10,7 @@ namespace LastCard
         private Transform cardsHolder;
 
         private List<Card> cards = new List<Card>();
-        public bool IsIncrementing { get; set; } = false;
+        //public bool IsIncrementing { get; set; } = false;
         public bool HasAliasThree { get; set; } = false;
         public bool SkipTurn { get; set; } = false;
         //public bool IsChangingSuit { get; set; } = false;
@@ -37,9 +37,9 @@ namespace LastCard
 
             switch (card.nominal)
             {
-                case Nominal.Four:
-                    IsIncrementing = true;
-                    break;
+                // case Nominal.Four:
+                //     IsIncrementing = true;
+                //     break;
                 case Nominal.Two:
                     SkipTurn = true;
                     break;
@@ -52,9 +52,9 @@ namespace LastCard
                 case Nominal.Eight:
                     ChangeCardSuit();
                     break;
-                case Nominal.Ten:
-                    IsIncrementing = false;
-                    break;
+                // case Nominal.Ten:
+                //     IsIncrementing = false;
+                //     break;
             }
             
 
