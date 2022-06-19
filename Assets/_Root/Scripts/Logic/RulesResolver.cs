@@ -18,8 +18,6 @@ namespace LastCard.Logic
                 return false;
             }
 
-            Debug.Log($"Nominal is Four: {card.nominal == Nominal.Four}");
-
             if (cardsPile.IsIncrementing)
             {
                 if ((cardsPile.PeekCard().nominal != Nominal.Ten) 

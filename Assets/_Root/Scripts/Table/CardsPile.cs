@@ -49,9 +49,6 @@ namespace LastCard
                 case Nominal.Ace:
                     Reversed = !Reversed;
                     break;
-                case Nominal.Eight:
-                    ChangeCardSuit();
-                    break;
                 case Nominal.Ten:
                     IsIncrementing = false;
                     break;
@@ -81,12 +78,6 @@ namespace LastCard
 
             cards.Add(card);
             card.transform.SetParent(cardsHolder.transform, false);
-        }
-
-        public void ChangeCardSuit()
-        {
-            System.Random random = new System.Random();
-            PeekCard().suit = (Suit)random.Next(1, 4);
         }
     }
 }

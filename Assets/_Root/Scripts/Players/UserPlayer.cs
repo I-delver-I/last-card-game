@@ -31,63 +31,46 @@ namespace LastCard
 
             if (cards.Contains(selectedCard))
             {
-                bool canSendCard = SendCardSelected(selectedCard);
-                Debug.Log($"Can send card: {canSendCard}");
-
-                if (canSendCard)
+                if (SendCardSelected(selectedCard))
                 {
-                    // if (selectedCard.nominal == Nominal.Eight)
-                    // {
-                    //     EndTurn();
-                    // }
-                    // else if (selectedCard.nominal == Nominal.Ace)
-                    // {
-                    //     EndTurn();
-                    // }
-                    
                     if (selectedCard.nominal != Nominal.Three)
                     {
                         EndTurn();
                     }
                 }
             }
-            else if (deck.ContainsCard(selectedCard))
-            {
-                TakeCards();
-                EndTurn();
-            }
-            else
+            // else if (deck.ContainsCard(selectedCard))
+            // {
+            //     // TakeCards();
+            //     // EndTurn();
+            // }
+            // else
+            // {
+            //     TakeCards();
+
+            //     return;
+            // }
+        }
+
+        public override void AddCards(List<Card> cardsToAdd)
+        {
+            if (cardsToAdd.Count == 0)
             {
                 return;
             }
-        }
+                
+            int hlgWidth = 1300;
+            hlgWidth = (int)hlg.transform.localScale.x;
+            int cardWidth = 150;
+            cardWidth = (int)cardsToAdd.FirstOrDefault().transform.localScale.x;
+            hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
 
-        public override void AddCards(List<Card> additionalCards)
-        {
-            // foreach (Card card in additionalCards)
-            // {
-            //     if (card == null)
-            //     {
-            //         return;
-            //     }
-            // }
-
-            if (cards.Count != 0)
-            {
-                int hlgWidth = 1300;
-                hlgWidth = (int)hlg.transform.localScale.x;
-                int cardWidth = 150;
-                cardWidth = (int)additionalCards.FirstOrDefault().transform.localScale.x;
-
-                hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
-            }
-
-            foreach (Card card in additionalCards)
+            foreach (Card card in cardsToAdd)
             {
                 card.flipper.Flip();
             }
 
-            base.AddCards(additionalCards);
+            base.AddCards(cardsToAdd);
         }
 
         public override Task MakeTurn()
@@ -98,7 +81,7 @@ namespace LastCard
             return turnTcs.Task;
         }
 
-        public override void EndTurn()
+        public void EndTurn()
         {
             if (turnTcs == null && (pile.PeekCard() != null))
             {
@@ -109,14 +92,6 @@ namespace LastCard
 
             turnTcs.TrySetResult(true);
         }
-
-        // public void ForceEndTurn()
-        // {
-        //     if (deck.CardsLeft == 0)
-        //     {
-        //         EndTurn();
-        //     }
-        // }
 
         private void OnDestroy()
         {

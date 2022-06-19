@@ -8,9 +8,9 @@ namespace LastCard
 {
     public class EndGame : MonoBehaviour
     {
-        public GameSettings settings;
         public Text Congratulation;
         public Text RunnerUpps;
+
 
         private void OnEnable() 
         {
@@ -26,14 +26,14 @@ namespace LastCard
 
         public void ShowCongratulation(Scene scene, LoadSceneMode mode)
         {
-            Congratulation.text = $"Player {settings.WinnerName} Win!";
+            Congratulation.text = $"Player {GameMaster.GM.WinnerName} Win!";
         }
 
         public void ShowRunnerUpps(Scene scene, LoadSceneMode mode)
         {
-            foreach (string runnerUp in settings.RunnerUpps)
+            foreach (string runnerUp in GameMaster.GM.RunnerUpps)
             {
-                RunnerUpps.text += runnerUp + '\n';
+                RunnerUpps.text += $"{runnerUp}'\n'";
             }
         }
     }

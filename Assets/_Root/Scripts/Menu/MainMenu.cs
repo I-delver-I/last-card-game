@@ -28,7 +28,7 @@ namespace LastCard
 
         private void Update() 
         {
-            if (Input.GetKey("escape") && settings.GameStarted)
+            if (Input.GetKey("escape") && GameMaster.GM.GameStarted)
             {
                 SceneManager.LoadScene("Game");
             }
@@ -38,7 +38,7 @@ namespace LastCard
         {
             if (settings.MaximalScore >= 3)
             {
-                settings.GameStarted = true;
+                GameMaster.GM.GameStarted = true;
                 SceneManager.LoadScene("Game");
             }
             else

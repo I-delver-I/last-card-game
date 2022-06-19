@@ -10,8 +10,8 @@ namespace LastCard
         public int BotsCount = 1;
         public int InitialCardsCount = 4;
         public int MaximalScore = 20;
-        public bool GameStarted = false;
-        public string WinnerName;
-        public List<string> RunnerUpps = new List<string>();
+        //public bool GameStarted = false;
+        //public string WinnerName;
+        //public List<string> RunnerUpps = new List<string>();
     }
 }

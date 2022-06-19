@@ -44,7 +44,6 @@ namespace LastCard
 
         private void Start()
         {
-            //SceneManager.LoadScene("Game"); // TEST
             SpawnPlayers();
             DistributeCards();
             StartGame();
@@ -68,6 +67,10 @@ namespace LastCard
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
+
+                string stringToDelete = "(Clone)";
+                bot.name.Remove(bot.name.IndexOf(stringToDelete), stringToDelete.Length);
+                bot.name += $": {i}";
                 players.Add(bot);
             }
         }
@@ -126,11 +129,11 @@ namespace LastCard
         {
             if (winner == null)
             {
-                settings.WinnerName = "Draw";
+                GameMaster.GM.WinnerName = "Draw";
             }
             else
             {
-                settings.WinnerName = winner.name;
+                GameMaster.GM.WinnerName = $"{winner.name} - {winner.GetPointsNumber()} penalty points";
                 players.Remove(winner);
             }
             
@@ -138,7 +141,7 @@ namespace LastCard
 
             foreach (Player player in players)
             {
-                settings.RunnerUpps.Add(($"{player.name}: {player.GetPointsNumber()} penalty points"));
+                GameMaster.GM.RunnerUpps.Add($"{player.name} - {player.GetPointsNumber()} penalty points\n");
             }
 
             SceneManager.LoadScene("GameEnding");
@@ -148,10 +151,14 @@ namespace LastCard
         {
             if (player.GetCardsCount() == 0)
             {
+                Debug.Log("Player's cards ended up");
+
                 return true;
             }
-            else if ((cardsDeck.GetCard() == null) && NobodyCanMakeTurn())
+            else if ((cardsDeck.CardsLeft == 0) && NobodyCanMakeTurn())
             {
+                Debug.Log("Nobody can make turn");
+
                 return true;
             }
 
@@ -213,12 +220,10 @@ namespace LastCard
                 cardsPile.SkipTurn = false;
                 Card cardFromDeck = cardsDeck.GetCard();
 
-                if (cardFromDeck == null)
+                if (cardFromDeck != null)
                 {
-                    return true;
+                    player.AddCards(new List<Card>() { cardFromDeck });
                 }
-
-                player.AddCards(new List<Card>() { cardFromDeck });
 
                 return true;
             }            
@@ -228,7 +233,7 @@ namespace LastCard
 
                 return true;
             }
-            else if (cardsDeck.GetCard() == null)
+            else if (cardsDeck.CardsLeft == 0)
             {
                 foreach (Card card in player.GetCards())
                 {
@@ -248,7 +253,6 @@ namespace LastCard
         {
             if (!rulesResolver.CanPushCard(card))
             {
-                Debug.Log($"Can push: {card.name}");
                 return false;
             }
             
@@ -279,33 +283,30 @@ namespace LastCard
 
             Card lastPileCard = cardsPile.PeekCard();
 
-            // if (cardsPile.IsIncrementing && !player.
-            //     ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
-            // {
-            //     // for (var i = 0; i < (int)lastPileCard.nominal; i++)
-            //     // {
-            //     //     // Card cardFromDeck = cardsDeck.GetCard();
-
-            //     //     // if (cardFromDeck != null)
-            //     //     // {
-            //     //     //     player.AddCards(new List<Card>() { cardFromDeck });
-            //     //     // }
-
-            //     // }
-
-            //     player.AddCards(cardsDeck.GetCards((int)lastPileCard.nominal));
-
-            //     cardsPile.IsIncrementing = false;
-            // }
-            
-            //{
-                //Card cardFromDeck = cardsDeck.GetCard();
-                
-                //if (cardFromDeck != null)
-                //{
+            if (cardsPile.IsIncrementing && !player.
+                ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
+            {
+                for (var i = 0; i < (int)lastPileCard.nominal && (cardsDeck.CardsLeft != 0); i++)
+                {
                     player.AddCards(new List<Card>() { cardsDeck.GetCard() });
-                //}
-            //}
+                    
+                    Debug.Log($"{player.name} takes cards");
+                }
+
+                //player.AddCards(cardsDeck.GetCards((int)lastPileCard.nominal));
+
+                cardsPile.IsIncrementing = false;
+            }
+            else
+            {
+                if (cardsDeck.CardsLeft != 0)
+                {
+                    Debug.Log($"{player.name} takes cards");
+                    player.AddCards(new List<Card>() { cardsDeck.GetCard() });
+                }
+
+                //player.EndTurn();
+            }
         }
 
         private int GetStartPlayerIndex()

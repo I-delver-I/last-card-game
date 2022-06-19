@@ -12,10 +12,10 @@ namespace LastCard
         public Outline border;
         public Text cardsCount;
 
-        public override void EndTurn()
-        {
-            // Thread.Sleep(1500);
-        }
+        // public override void EndTurn()
+        // {
+        //     // Thread.Sleep(1500);
+        // }
 
         public override void AddCards(List<Card> additionalCards)
         {
@@ -27,11 +27,13 @@ namespace LastCard
         public override async Task MakeTurn()
         {
             Debug.Log("Bot turn");
+            
             bool turnIsMade = false;
             border.enabled = true;
             Task turnDuration = Task.Delay(TimeSpan.FromSeconds(2));
             await turnDuration;
             border.enabled = false;
+
             List<Card> tempCards = new List<Card>(cards);
 
             while (tempCards.Count != 0)

@@ -27,22 +27,24 @@ namespace LastCard
             pile = cardsPile;
         }
 
-        public virtual void AddCards(List<Card> additionalCards)
+        public virtual void AddCards(List<Card> cardsToAdd)
         {
-            // foreach (Card card in additionalCards)
-            // {
-            //     if (card == null)
-            //     {
-            //         return;
-            //     }
-            // }
+            List<Card> result = new List<Card>();
 
-            cards.AddRange(additionalCards);
-            
-            foreach (Card card in additionalCards)
+            foreach (Card card in cardsToAdd)
+            {
+                if (card != null)
+                {
+                    result.Add(card);
+                }
+            }
+
+            foreach (Card card in result)
             {
                 card.transform.SetParent(cardsHolder, false);
             }
+
+            cards.AddRange(result);
         }
 
         public int GetPointsNumber()
@@ -97,7 +99,7 @@ namespace LastCard
             OnCardsMissing?.Invoke(this);
         }
 
-        public abstract void EndTurn();
+        //public abstract void EndTurn();
 
         public abstract Task MakeTurn();
     }

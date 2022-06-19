@@ -25,11 +25,11 @@ namespace LastCard
 
         private List<Card> CreateCards()
         {
-            var result = new List<Card>();
+            List<Card> result = new List<Card>();
             
             for (var i = 0; i < maxCardsAmount; i++)
             {
-                Card newCard = Instantiate(cardsPrefabs[i], this.transform);
+                Card newCard = Instantiate(cardsPrefabs[i], transform);
                 newCard.flipper.Flip();
                 result.Add(newCard);
             }
@@ -61,7 +61,7 @@ namespace LastCard
 
             while ((cards.Count != 0) && (amount != result.Count))
             {
-                Card newCard = cards.Last();
+                Card newCard = cards[cards.Count - 1];
                 result.Add(newCard);
                 cards.Remove(newCard);
             }
@@ -73,7 +73,7 @@ namespace LastCard
         {
             if (cards.Count != 0)
             {
-                Card result = cards.Last();
+                Card result = cards[cards.Count - 1];
                 cards.Remove(result);
 
                 return result;
