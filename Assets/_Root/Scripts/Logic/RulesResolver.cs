@@ -18,21 +18,25 @@ namespace LastCard.Logic
                 return false;
             }
 
-            // if (cardsPile.IsIncrementing)
-            // {
-            //     if ((cardsPile.PeekCard().nominal != Nominal.Ten) && (card.nominal == cardsPile.PeekCard().nominal + 1))
-            //     {
-            //         return true;
-            //     }
-            //     else
-            //     {
-            //         return false;
-            //     }
-            // }
+            Debug.Log($"Nominal is Four: {card.nominal == Nominal.Four}");
+
+            if (cardsPile.IsIncrementing)
+            {
+                if ((cardsPile.PeekCard().nominal != Nominal.Ten) 
+                    && (card.nominal == cardsPile.PeekCard().nominal + 1) && (card.suit == cardsPile.PeekCard().suit))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
 
             if ((card.nominal == Nominal.Eight) || cardsPile.HasAliasThree
                 || (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
             {
+
                 return true;
             }
 

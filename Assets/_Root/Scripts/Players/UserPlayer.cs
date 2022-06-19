@@ -110,13 +110,13 @@ namespace LastCard
             turnTcs.TrySetResult(true);
         }
 
-        public void ForceEndTurn()
-        {
-            if (deck.CardsLeft == 0)
-            {
-                EndTurn();
-            }
-        }
+        // public void ForceEndTurn()
+        // {
+        //     if (deck.CardsLeft == 0)
+        //     {
+        //         EndTurn();
+        //     }
+        // }
 
         private void OnDestroy()
         {
