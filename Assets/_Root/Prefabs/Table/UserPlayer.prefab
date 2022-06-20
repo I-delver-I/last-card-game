@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1251896724889187460}
         m_TargetAssemblyTypeName: LastCard.UserPlayer, Game.Core
-        m_MethodName: EndTurn
+        m_MethodName: PassTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

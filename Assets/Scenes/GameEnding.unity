@@ -167,7 +167,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214897191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -434,7 +434,6 @@ GameObject:
   - component: {fileID: 1384847797}
   - component: {fileID: 1384847796}
   - component: {fileID: 1384847795}
-  - component: {fileID: 1384847798}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -506,8 +505,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1384847798}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
+      - m_Target: {fileID: 1907440259}
+        m_TargetAssemblyTypeName: LastCard.GameEndingMaster, Game.Core
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -556,24 +555,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384847793}
   m_CullTransparentMesh: 1
---- !u!114 &1384847798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384847793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4980cb25d9ea9f14696ac0315ac144b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 0}
-  playButton: {fileID: 0}
-  exitButton: {fileID: 0}
-  botsSlider: {fileID: 0}
-  cardsSlider: {fileID: 0}
-  pointsField: {fileID: 0}
 --- !u!1 &1460497769
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +567,6 @@ GameObject:
   - component: {fileID: 1460497772}
   - component: {fileID: 1460497771}
   - component: {fileID: 1460497770}
-  - component: {fileID: 1460497774}
   m_Layer: 5
   m_Name: GameEnding
   m_TagString: Untagged
@@ -678,21 +658,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1460497774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1460497769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce6ecaebd8d5f394088e8f49d8ecca60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GM: {fileID: 1907440259}
-  Congratulation: {fileID: 1688495946}
-  RunnerUpps: {fileID: 843266520}
 --- !u!1 &1688495944
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +748,7 @@ GameObject:
   - component: {fileID: 1907440260}
   - component: {fileID: 1907440259}
   m_Layer: 0
-  m_Name: GameMaster
+  m_Name: GameEndingMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -798,12 +763,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1907440258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39d7e74ce588d44920d9f5d040979c, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a1fb88809933c40b842efbf5da713e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinnerName: 
-  RunnerUpps: []
-  GameStarted: 0
+  congratulation: {fileID: 1688495946}
+  runnerUpps: {fileID: 843266520}
 --- !u!4 &1907440260
 Transform:
   m_ObjectHideFlags: 0

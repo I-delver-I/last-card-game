@@ -33,6 +33,8 @@ namespace LastCard
             {
                 if (SendCardSelected(selectedCard))
                 {
+                    RemoveCard(selectedCard);
+
                     if (selectedCard.nominal != Nominal.Three)
                     {
                         EndTurn();
@@ -87,10 +89,14 @@ namespace LastCard
             {
                 return;
             }
-
-            TakeCards();
-
+            Debug.Log($"Cards count - {GetCardsCount()}");
             turnTcs.TrySetResult(true);
+        }
+
+        public void PassTurn()
+        {
+            TakeCards();
+            EndTurn();
         }
 
         private void OnDestroy()

@@ -10,11 +10,17 @@ namespace LastCard
         private Transform cardsHolder;
 
         private List<Card> cards = new List<Card>();
+        private CardsDeck deck;
+
         public bool IsIncrementing { get; set; } = false;
         public bool HasAliasThree { get; set; } = false;
         public bool SkipTurn { get; set; } = false;
-        //public bool IsChangingSuit { get; set; } = false;
         public bool Reversed { get; set; } = false;
+
+        public void Init(CardsDeck cardsDeck)
+        {
+            deck = cardsDeck;
+        }
         
         public Card PeekCard()
         {
@@ -38,7 +44,10 @@ namespace LastCard
             switch (card.nominal)
             {
                 case Nominal.Four:
-                    IsIncrementing = true;
+                    if (deck.CardsLeft != 0)
+                    {
+                        IsIncrementing = true;
+                    }
                     break;
                 case Nominal.Two:
                     SkipTurn = true;
@@ -52,8 +61,9 @@ namespace LastCard
                 case Nominal.Ten:
                     IsIncrementing = false;
                     break;
+                default:
+                    break;
             }
-            
 
             // if (card.nominal == Nominal.Four)
             // {

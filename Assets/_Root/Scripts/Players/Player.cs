@@ -19,6 +19,7 @@ namespace LastCard
         public event Func<Player, Card, bool> OnCardSelected;
         public event Action<Player> OnCardsMissing;
         public bool CanMakeTurn { get; set; } = true;
+        public bool DontTurn = false;
         
         public void Init(RulesResolver rulesResolver, CardsDeck cardsDeck, CardsPile cardsPile)
         {
@@ -98,8 +99,6 @@ namespace LastCard
         {
             OnCardsMissing?.Invoke(this);
         }
-
-        //public abstract void EndTurn();
 
         public abstract Task MakeTurn();
     }

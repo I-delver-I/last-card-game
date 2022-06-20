@@ -12,11 +12,6 @@ namespace LastCard
         public Outline border;
         public Text cardsCount;
 
-        // public override void EndTurn()
-        // {
-        //     // Thread.Sleep(1500);
-        // }
-
         public override void AddCards(List<Card> additionalCards)
         {
             base.AddCards(additionalCards);
@@ -28,7 +23,7 @@ namespace LastCard
         {
             Debug.Log("Bot turn");
             
-            bool turnIsMade = false;
+            //bool turnIsMade = false;
             border.enabled = true;
             Task turnDuration = Task.Delay(TimeSpan.FromSeconds(2));
             await turnDuration;
@@ -67,14 +62,20 @@ namespace LastCard
                     //     RemoveCard(cardToPush);
                     // }
 
+                    if ((cards.Count != 0) && (maxCard.nominal == Nominal.Three))
+                    {
+                        Card cardToPush = GetCardToPush();
+                        pile.PushCard(cardToPush);
+                        RemoveCard(cardToPush);
+                    }
+
                     cardsCount.text = cards.Count.ToString();
-                    turnIsMade = true;
                     await Task.CompletedTask;
                     break;
                 }
             }
 
-            if (!turnIsMade)
+            if (DontTurn)
             {
                 Debug.Log("Bot takes card");
                 TakeCards();

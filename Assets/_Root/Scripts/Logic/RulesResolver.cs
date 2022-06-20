@@ -5,10 +5,12 @@ namespace LastCard.Logic
     public class RulesResolver : MonoBehaviour
     {
         private CardsPile cardsPile;
+        private CardsDeck cardsDeck;
 
-        public void Init(CardsPile pile)
+        public void Init(CardsPile pile, CardsDeck deck)
         {
             cardsPile = pile;
+            cardsDeck = deck;
         }
 
         public bool CanPushCard(Card card)
@@ -18,10 +20,12 @@ namespace LastCard.Logic
                 return false;
             }
 
-            if (cardsPile.IsIncrementing)
+            if (cardsPile.IsIncrementing && (cardsDeck.CardsLeft != 0))
             {
-                if ((cardsPile.PeekCard().nominal != Nominal.Ten) 
-                    && (card.nominal == cardsPile.PeekCard().nominal + 1) && (card.suit == cardsPile.PeekCard().suit))
+                Card pileCard = cardsPile.PeekCard();
+
+                if ((pileCard.nominal != Nominal.Ten) 
+                    && (card.nominal == pileCard.nominal + 1) && (card.suit == pileCard.suit))
                 {
                     return true;
                 }
@@ -30,11 +34,14 @@ namespace LastCard.Logic
                     return false;
                 }
             }
+            else
+            {
+                cardsPile.IsIncrementing = false;
+            }
 
             if ((card.nominal == Nominal.Eight) || cardsPile.HasAliasThree
                 || (card.nominal == Nominal.Four && CanPushFour()) || FollowsBaseCondition(card))
             {
-
                 return true;
             }
 
@@ -50,7 +57,7 @@ namespace LastCard.Logic
                 return true;
             }
 
-            return false;           
+            return false;
         }
 
         private bool FollowsBaseCondition(Card card)

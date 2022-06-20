@@ -30,16 +30,21 @@ namespace LastCard
         [SerializeField]
         private UserPlayer userPrefab;
 
-        [SerializeField]
-        private GameSettings settings;
+        // [SerializeField]
+        // private GameSettings settings;
 
         private List<Player> players = new List<Player>();
         private int playerIndex;
         private bool gameIsFinished = false;
 
+        public int BotsCount;
+        public int InitialCardsCount;
+        public int MaximalPointsCount;
+
         private void Awake() 
         {
-            rulesResolver.Init(cardsPile);
+            rulesResolver.Init(cardsPile, cardsDeck);
+            cardsPile.Init(cardsDeck);
         }
 
         private void Start()
@@ -63,14 +68,14 @@ namespace LastCard
             user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
             
-            for (var i = 0; i < settings.BotsCount; i++)
+            for (var i = 0; i < MainMenuMaster.mainMenuMaster.BotsCount; i++)
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
 
                 string stringToDelete = "(Clone)";
-                bot.name.Remove(bot.name.IndexOf(stringToDelete), stringToDelete.Length);
-                bot.name += $": {i}";
+                bot.name = bot.name.Remove(bot.name.IndexOf(stringToDelete), stringToDelete.Length);
+                bot.name += $": {i + 1}";
                 players.Add(bot);
             }
         }
@@ -79,7 +84,7 @@ namespace LastCard
         {
             foreach (Player player in players)
             {
-                var cards = cardsDeck.GetCards(settings.InitialCardsCount);
+                var cards = cardsDeck.GetCards(MainMenuMaster.mainMenuMaster.InitialCardsCount);
 
                 player.AddCards(cards);
             }
@@ -122,33 +127,24 @@ namespace LastCard
                 gameIsFinished = CheckIsCompleted(player);
             }
 
+            Debug.Log("The game is ending...");
+
             EndGame(GetWinner());
         }
 
         private void EndGame(Player winner)
         {
-            if (winner == null)
-            {
-                GameMaster.GM.WinnerName = "Draw";
-            }
-            else
-            {
-                GameMaster.GM.WinnerName = $"{winner.name} - {winner.GetPointsNumber()} penalty points";
-                players.Remove(winner);
-            }
-            
+            GameMaster.GM.SetWinner(winner);
+            players.Remove(winner);
             ExcludeLosers();
-
-            foreach (Player player in players)
-            {
-                GameMaster.GM.RunnerUpps.Add($"{player.name} - {player.GetPointsNumber()} penalty points\n");
-            }
-
-            SceneManager.LoadScene("GameEnding");
+            GameMaster.GM.SetRunnerUpps(players);
+            GameMaster.GM.EndGame();
         }
 
         private bool CheckIsCompleted(Player player)
         {
+            Debug.Log($"Check {player} is completed - {player.GetCardsCount()}");
+
             if (player.GetCardsCount() == 0)
             {
                 Debug.Log("Player's cards ended up");
@@ -168,27 +164,46 @@ namespace LastCard
         private void ExcludeLosers()
         {
             List<Player> tempPlayers = new List<Player>(players);
+            bool loserCanBeRemoved = true;
 
-            foreach (Player player in tempPlayers)
+            while (loserCanBeRemoved)
             {
-                if (player.GetPointsNumber() > settings.MaximalScore)
+                loserCanBeRemoved = false;
+                Player playerToRemove = null;
+
+                foreach (Player player in tempPlayers)
                 {
-                    players.Remove(player);
+                    if (player.GetPointsNumber() > MainMenuMaster.mainMenuMaster.MaximalPointsCount)
+                    {
+                        playerToRemove = player;
+                        loserCanBeRemoved = true;
+                        break;
+                    }
+                }
+
+                if (loserCanBeRemoved)
+                {
+                    players.Remove(playerToRemove);
                 }
             }
+
+            // foreach (Player player in tempPlayers)
+            // {
+            //     if (player.GetPointsNumber() > MainMenuMaster.mainMenuMaster.MaximalPointsCount)
+            //     {
+            //         players.Remove(player);
+            //     }
+            // }
         }
 
         private bool NobodyCanMakeTurn()
         {
             foreach (Player player in players)
             {
-                foreach (Card card in player.GetCards())
+                if (!player.DontTurn)
                 {
-                    if (rulesResolver.CanPushCard(card))
-                    {
-                        return false;
-                    }
-                }
+                    return false;
+                }               
             }
 
             return true;
@@ -233,18 +248,18 @@ namespace LastCard
 
                 return true;
             }
-            else if (cardsDeck.CardsLeft == 0)
-            {
-                foreach (Card card in player.GetCards())
-                {
-                    if (rulesResolver.CanPushCard(card))
-                    {
-                        return false;
-                    }
-                }
+            // else if (cardsDeck.CardsLeft == 0)
+            // {
+            //     foreach (Card card in player.GetCards())
+            //     {
+            //         if (rulesResolver.CanPushCard(card))
+            //         {
+            //             return false;
+            //         }
+            //     }
 
-                return true;
-            }
+            //     return true;
+            // }
             
             return false;
         }
@@ -262,30 +277,28 @@ namespace LastCard
             }
 
             cardsPile.PushCard(card);
+            player.DontTurn = false;
+            //player.RemoveCard(card);
 
-            if (player is BotPlayer bot && card.nominal == Nominal.Three)
-            {
-                Card cardToPush = bot.GetCardToPush();
-                cardToPush.flipper.Flip();
-                cardsPile.PushCard(cardToPush);
-                bot.RemoveCard(cardToPush);
-            }
+            // if (player is BotPlayer bot && card.nominal == Nominal.Three)
+            // {
+            //     Card cardToPush = bot.GetCardToPush();
+            //     cardsPile.PushCard(cardToPush);
+            //     bot.RemoveCard(cardToPush);
+            // }
 
             return true;
         }
 
         private void OnPlayerMissingCards(Player player)
         {
-            if (cardsDeck.CardsLeft == 0)
-            {
-                return;
-            }
-
             Card lastPileCard = cardsPile.PeekCard();
 
             if (cardsPile.IsIncrementing && !player.
                 ContainsCard(card => (card.nominal == lastPileCard.nominal + 1) && (lastPileCard.suit == card.suit)))
             {
+                Debug.Log($"{player.name} doesn't have any card to increment pile!");
+
                 for (var i = 0; i < (int)lastPileCard.nominal && (cardsDeck.CardsLeft != 0); i++)
                 {
                     player.AddCards(new List<Card>() { cardsDeck.GetCard() });
@@ -293,20 +306,17 @@ namespace LastCard
                     Debug.Log($"{player.name} takes cards");
                 }
 
-                //player.AddCards(cardsDeck.GetCards((int)lastPileCard.nominal));
-
                 cardsPile.IsIncrementing = false;
             }
-            else
+            else if (cardsDeck.CardsLeft != 0)
             {
-                if (cardsDeck.CardsLeft != 0)
-                {
-                    Debug.Log($"{player.name} takes cards");
-                    player.AddCards(new List<Card>() { cardsDeck.GetCard() });
-                }
+                Debug.Log($"{player.name} takes cards");
+                player.AddCards(new List<Card>() { cardsDeck.GetCard() });
 
-                //player.EndTurn();
+                return;
             }
+
+            player.DontTurn = true;
         }
 
         private int GetStartPlayerIndex()

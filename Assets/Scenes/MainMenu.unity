@@ -915,9 +915,9 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115281268}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
-        m_MethodName: AssignPointsCount
+      - m_Target: {fileID: 2105978856}
+        m_TargetAssemblyTypeName: MainMenuMaster, Game.Core
+        m_MethodName: SetMaximalPointsCount
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1134,9 +1134,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115281268}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 2105978856}
+        m_TargetAssemblyTypeName: MainMenuMaster, Game.Core
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1410,9 +1410,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115281268}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
-        m_MethodName: AssignBotsCount
+      - m_Target: {fileID: 2105978856}
+        m_TargetAssemblyTypeName: MainMenuMaster, Game.Core
+        m_MethodName: SetBotsCount
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1532,7 +1532,6 @@ GameObject:
   - component: {fileID: 1115281266}
   - component: {fileID: 1115281265}
   - component: {fileID: 1115281264}
-  - component: {fileID: 1115281268}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1627,24 +1626,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1115281268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115281263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4980cb25d9ea9f14696ac0315ac144b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 610d43e46fc8fb04b9dcc3b122b3d3e5, type: 2}
-  playButton: {fileID: 782990165}
-  exitButton: {fileID: 1215231871}
-  botsSlider: {fileID: 889722618}
-  cardsSlider: {fileID: 2061624628}
-  pointsField: {fileID: 753253366}
 --- !u!1 &1215231869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,8 +1709,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115281268}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
+      - m_Target: {fileID: 2105978856}
+        m_TargetAssemblyTypeName: MainMenuMaster, Game.Core
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -2557,9 +2538,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1115281268}
-        m_TargetAssemblyTypeName: LastCard.MainMenu, Game.Core
-        m_MethodName: AssignCardsCount
+      - m_Target: {fileID: 2105978856}
+        m_TargetAssemblyTypeName: MainMenuMaster, Game.Core
+        m_MethodName: SetCardsCount
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2606,7 +2587,7 @@ GameObject:
   - component: {fileID: 2105978857}
   - component: {fileID: 2105978856}
   m_Layer: 0
-  m_Name: GameMaster
+  m_Name: MainMenuMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2621,12 +2602,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2105978855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39d7e74ce588d44920d9f5d040979c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a4e05ca99dd5c64cb977ffad6fdf339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinnerName: 
-  RunnerUpps: []
-  GameStarted: 0
+  BotsCount: 1
+  InitialCardsCount: 4
+  MaximalPointsCount: 20
+  botsSlider: {fileID: 889722618}
+  cardsSlider: {fileID: 2061624628}
+  pointsField: {fileID: 753253366}
 --- !u!4 &2105978857
 Transform:
   m_ObjectHideFlags: 0

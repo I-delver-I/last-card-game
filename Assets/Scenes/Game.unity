@@ -770,12 +770,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1285326005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39d7e74ce588d44920d9f5d040979c, type: 3}
+  m_Script: {fileID: 11500000, guid: c7b9980e9fb8d874aacbb3a165d512ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinnerName: 
+  director: {fileID: 6149248339758817040}
+  Winner: 
   RunnerUpps: []
-  GameStarted: 0
 --- !u!4 &1285326007
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,6 +1400,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6149248338630000908, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6149248338630000910, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1457,6 +1461,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+      propertyPath: BotsCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: cardsDeck
       value: 
       objectReference: {fileID: 1342732083}
@@ -1476,6 +1484,14 @@ PrefabInstance:
       propertyPath: rulesResolver
       value: 
       objectReference: {fileID: 6149248339758817039}
+    - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+      propertyPath: InitialCardsCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+      propertyPath: MaximalPointsCount
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
       propertyPath: botHolders.Array.data[0]
       value: 
@@ -1507,6 +1523,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a5ba9d3defa459f9092499b34e85ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6149248339758817040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6149248338630001393, guid: 804f1bff86f77474ba53426e626d3aef, type: 3}
+  m_PrefabInstance: {fileID: 6149248339758817038}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e869d60675b746538fce4c6adb3a1dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &9092266418080697959
