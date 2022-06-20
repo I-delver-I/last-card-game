@@ -44,10 +44,7 @@ namespace LastCard
             switch (card.nominal)
             {
                 case Nominal.Four:
-                    //if (deck.CardsLeft != 0)
-                    //{
-                        IsIncrementing = true;
-                    //}
+                    IsIncrementing = true;
                     break;
                 case Nominal.Two:
                     SkipTurn = true;

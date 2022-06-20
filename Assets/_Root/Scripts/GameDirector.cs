@@ -30,9 +30,6 @@ namespace LastCard
         [SerializeField]
         private UserPlayer userPrefab;
 
-        // [SerializeField]
-        // private GameSettings settings;
-
         private List<Player> players = new List<Player>();
         private int playerIndex;
         private bool gameIsFinished = false;

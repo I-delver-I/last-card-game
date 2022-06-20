@@ -48,10 +48,8 @@ namespace LastCard
                 return;
             }
                 
-            int hlgWidth = 1300;
-            hlgWidth = (int)hlg.transform.localScale.x;
-            int cardWidth = 150;
-            cardWidth = (int)cardsToAdd.FirstOrDefault().transform.localScale.x;
+            int hlgWidth = (int)hlg.transform.localScale.x;
+            int cardWidth = (int)cardsToAdd.FirstOrDefault().transform.localScale.x;
             hlg.spacing = (hlgWidth - cardWidth * cards.Count) / (cards.Count - 1);
 
             foreach (Card card in cardsToAdd)

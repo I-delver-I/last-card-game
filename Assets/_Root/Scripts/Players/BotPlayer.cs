@@ -33,15 +33,15 @@ namespace LastCard
 
             while (tempCards.Count != 0)
             {
-                Card maxCard = GetMinimalCard(tempCards);
-                tempCards.Remove(maxCard);
+                Card minCard = GetMinimalCard(tempCards);
+                tempCards.Remove(minCard);
 
-                if (SendCardSelected(maxCard))
+                if (SendCardSelected(minCard))
                 {
-                    maxCard.flipper.Flip();
-                    RemoveCard(maxCard);
+                    minCard.flipper.Flip();
+                    RemoveCard(minCard);
 
-                    if ((cards.Count != 0) && (maxCard.nominal == Nominal.Three))
+                    if ((cards.Count != 0) && (minCard.nominal == Nominal.Three))
                     {
                         Card cardToPush = GetCardToPush();
                         pile.PushCard(cardToPush);

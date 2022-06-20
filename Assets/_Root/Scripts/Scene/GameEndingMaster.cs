@@ -55,11 +55,11 @@ namespace LastCard
 
             if (GameMaster.GM.Winner != "Draw")
             {
-                MainMenuMaster.mainMenuMaster.BotsCount = GameMaster.GM.RunnerUpps.Count + 1;
+                MainMenuMaster.mainMenuMaster.BotsCount = GameMaster.GM.RunnerUpps.Count;
             }
             else
             {
-                MainMenuMaster.mainMenuMaster.BotsCount = GameMaster.GM.RunnerUpps.Count;
+                MainMenuMaster.mainMenuMaster.BotsCount = GameMaster.GM.RunnerUpps.Count - 1;
             }
 
             MainMenuMaster.mainMenuMaster.StartGame();
