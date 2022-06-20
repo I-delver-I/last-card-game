@@ -507,7 +507,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1907440259}
         m_TargetAssemblyTypeName: LastCard.GameEndingMaster, Game.Core
-        m_MethodName: ExitGame
+        m_MethodName: ContinueGameOrExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -12,7 +12,7 @@ namespace LastCard
         private List<Card> cards = new List<Card>();
         private CardsDeck deck;
 
-        public bool IsIncrementing { get; set; } = false;
+        public bool IsIncrementing = false;
         public bool HasAliasThree { get; set; } = false;
         public bool SkipTurn { get; set; } = false;
         public bool Reversed { get; set; } = false;
@@ -44,10 +44,10 @@ namespace LastCard
             switch (card.nominal)
             {
                 case Nominal.Four:
-                    if (deck.CardsLeft != 0)
-                    {
+                    //if (deck.CardsLeft != 0)
+                    //{
                         IsIncrementing = true;
-                    }
+                    //}
                     break;
                 case Nominal.Two:
                     SkipTurn = true;
@@ -64,27 +64,6 @@ namespace LastCard
                 default:
                     break;
             }
-
-            // if (card.nominal == Nominal.Four)
-            // {
-            //     IsIncrementing = true;
-            // }
-            // else if (card.nominal == Nominal.Two)
-            // {
-            //     SkipTurn = true;
-            // }
-            // else if (card.nominal == Nominal.Three)
-            // {
-            //     HasAliasThree = true;
-            // }
-            // else if (card.nominal == Nominal.Ace)
-            // {
-            //     Reversed = !Reversed;
-            // }
-            // else if (card.nominal == Nominal.Eight)
-            // {
-            //     ChangeCardSuit();
-            // }
 
             cards.Add(card);
             card.transform.SetParent(cardsHolder.transform, false);

@@ -12,8 +12,6 @@ namespace LastCard
         [SerializeField]
         private TapCardsSelector cardsSelector;
 
-        private TaskCompletionSource<bool> turnTcs;
-
         public Button endTurnButton;
         public HorizontalLayoutGroup hlg;
 
@@ -41,17 +39,6 @@ namespace LastCard
                     }
                 }
             }
-            // else if (deck.ContainsCard(selectedCard))
-            // {
-            //     // TakeCards();
-            //     // EndTurn();
-            // }
-            // else
-            // {
-            //     TakeCards();
-
-            //     return;
-            // }
         }
 
         public override void AddCards(List<Card> cardsToAdd)

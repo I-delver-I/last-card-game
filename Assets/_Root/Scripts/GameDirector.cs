@@ -64,7 +64,7 @@ namespace LastCard
 
         private void SpawnPlayers()
         {
-            UserPlayer user = userHolder.PlaceUser(userPrefab);
+            UserPlayer user = userHolder.PlaceUser(userPrefab);           
             user.Init(rulesResolver, cardsDeck, cardsPile);
             players.Add(user);
             
@@ -72,11 +72,20 @@ namespace LastCard
             {
                 BotPlayer bot = botHolders[i].PlaceBot(botPrefab);
                 bot.Init(rulesResolver, cardsDeck, cardsPile);
-
-                string stringToDelete = "(Clone)";
-                bot.name = bot.name.Remove(bot.name.IndexOf(stringToDelete), stringToDelete.Length);
                 bot.name += $": {i + 1}";
                 players.Add(bot);
+            }
+
+            ImprovePlayersNames();
+        }
+
+        private void ImprovePlayersNames()
+        {
+            string stringToDelete = "(Clone)";
+
+            foreach (Player player in players)
+            {
+                player.name = player.name.Remove(player.name.IndexOf(stringToDelete), stringToDelete.Length);
             }
         }
 
@@ -84,7 +93,7 @@ namespace LastCard
         {
             foreach (Player player in players)
             {
-                var cards = cardsDeck.GetCards(MainMenuMaster.mainMenuMaster.InitialCardsCount);
+                List<Card> cards = cardsDeck.GetCards(MainMenuMaster.mainMenuMaster.InitialCardsCount);
 
                 player.AddCards(cards);
             }
@@ -186,14 +195,6 @@ namespace LastCard
                     players.Remove(playerToRemove);
                 }
             }
-
-            // foreach (Player player in tempPlayers)
-            // {
-            //     if (player.GetPointsNumber() > MainMenuMaster.mainMenuMaster.MaximalPointsCount)
-            //     {
-            //         players.Remove(player);
-            //     }
-            // }
         }
 
         private bool NobodyCanMakeTurn()
@@ -248,18 +249,6 @@ namespace LastCard
 
                 return true;
             }
-            // else if (cardsDeck.CardsLeft == 0)
-            // {
-            //     foreach (Card card in player.GetCards())
-            //     {
-            //         if (rulesResolver.CanPushCard(card))
-            //         {
-            //             return false;
-            //         }
-            //     }
-
-            //     return true;
-            // }
             
             return false;
         }
@@ -278,14 +267,6 @@ namespace LastCard
 
             cardsPile.PushCard(card);
             player.DontTurn = false;
-            //player.RemoveCard(card);
-
-            // if (player is BotPlayer bot && card.nominal == Nominal.Three)
-            // {
-            //     Card cardToPush = bot.GetCardToPush();
-            //     cardsPile.PushCard(cardToPush);
-            //     bot.RemoveCard(cardToPush);
-            // }
 
             return true;
         }

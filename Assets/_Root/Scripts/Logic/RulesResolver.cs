@@ -20,7 +20,7 @@ namespace LastCard.Logic
                 return false;
             }
 
-            if (cardsPile.IsIncrementing && (cardsDeck.CardsLeft != 0))
+            if (cardsPile.IsIncrementing)
             {
                 Card pileCard = cardsPile.PeekCard();
 
@@ -33,10 +33,6 @@ namespace LastCard.Logic
                 {
                     return false;
                 }
-            }
-            else
-            {
-                cardsPile.IsIncrementing = false;
             }
 
             if ((card.nominal == Nominal.Eight) || cardsPile.HasAliasThree

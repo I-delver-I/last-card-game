@@ -12,6 +12,7 @@ namespace LastCard
         protected CardsDeck deck;
         protected RulesResolver resolver;
         protected CardsPile pile;
+        protected TaskCompletionSource<bool> turnTcs;
 
         [SerializeField]
         private Transform cardsHolder;

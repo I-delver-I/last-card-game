@@ -23,44 +23,23 @@ namespace LastCard
         {
             Debug.Log("Bot turn");
             
-            //bool turnIsMade = false;
             border.enabled = true;
             Task turnDuration = Task.Delay(TimeSpan.FromSeconds(2));
             await turnDuration;
             border.enabled = false;
+            bool turnIsMade = false;
 
             List<Card> tempCards = new List<Card>(cards);
 
             while (tempCards.Count != 0)
             {
-                Card maxCard = GetMaximalCard(tempCards);
+                Card maxCard = GetMinimalCard(tempCards);
                 tempCards.Remove(maxCard);
 
                 if (SendCardSelected(maxCard))
                 {
                     maxCard.flipper.Flip();
                     RemoveCard(maxCard);
-
-                    // if (maxCard.nominal == Nominal.Three)
-                    // {
-                    //     cardToPush = GetCardToPush();
-                    //     SendCardSelected(cardToPush);
-                    //     RemoveCard(cardToPush);
-
-                    //     // foreach (Card card in cards)
-                    //     // {
-                    //     //     if (SendCardSelected(card))
-                    //     //     {
-                    //     //         card.flipper.Flip();
-
-                    //     //         await MakeTurn();
-                    //     //     }
-                    //     // }
-                    // }
-                    // else
-                    // {
-                    //     RemoveCard(cardToPush);
-                    // }
 
                     if ((cards.Count != 0) && (maxCard.nominal == Nominal.Three))
                     {
@@ -70,12 +49,13 @@ namespace LastCard
                     }
 
                     cardsCount.text = cards.Count.ToString();
+                    turnIsMade = true;
                     await Task.CompletedTask;
                     break;
                 }
             }
 
-            if (DontTurn)
+            if (!turnIsMade)
             {
                 Debug.Log("Bot takes card");
                 TakeCards();
@@ -100,9 +80,9 @@ namespace LastCard
             return null;
         }
 
-        private Card GetMaximalCard(List<Card> botCards)
+        private Card GetMinimalCard(List<Card> botCards)
         {
-            return botCards.Find(card => card.nominal == botCards.Max(card => card.nominal));
+            return botCards.Find(card => card.nominal == botCards.Min(card => card.nominal));
         }
     }
 }
